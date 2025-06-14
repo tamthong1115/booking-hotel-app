@@ -1,9 +1,10 @@
 export type UserType = {
     _id: string;
+    googleId?: string;
     email: string;
-    password: string;
-    firstName: string;
-    lastName: string;
+    password?: string;
+    firstName?: string;
+    lastName?: string;
     phoneNumber?: string;
     address?: string;
     gender?: string;

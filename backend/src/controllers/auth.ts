@@ -129,6 +129,9 @@ export const postLogin = async (req: Request, res: Response) => {
             return res.status(400).json({ message: "Email not verified. Check your email to verify" });
         }
 
+        if (!user.password) {
+            return res.status(400).json({ message: "Email or password is incorrect" });
+        }
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             return res.status(400).json({ message: "Email or password is incorrect" });
@@ -143,6 +146,19 @@ export const postLogin = async (req: Request, res: Response) => {
     }
 };
 
+// export const getHandleGoogleCallback = (req: Request, res: Response) => {
+//     if (req.authInfo && req.authInfo.message) {
+//         return res.status(400).json({ message: req.authInfo.message });
+//     }
+//     const user = req.user as typeof User.prototype;
+//     if (!user) {
+//         return;
+//     }
+//     // Generate JWT token and set it as a cookie
+//     generateToken(res, user._id);
+
+//     res.redirect(WEB_URL);
+// };
 export const postForgetPassword = async (req: Request, res: Response) => {
     const { email } = req.body;
 
@@ -244,6 +260,7 @@ export const postLogout = (req: Request, res: Response) => {
 
         res.status(200).json({ message: "Logout OK" });
     } catch (err) {
+        console.log(err);
         res.status(500).json({ message: "Something went wrong" });
     }
 };

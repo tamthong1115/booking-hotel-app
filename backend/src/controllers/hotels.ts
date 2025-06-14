@@ -55,7 +55,7 @@ break
         let sortPrice = 0;
         switch (req.query.sortOption) {
             case "starRating":
-                sortStarRating = -1;
+                sortStarRating = -1; // From 5 star to 1 star
                 break;
             case "pricePerNightAsc":
                 sortPrice = 1;
@@ -167,7 +167,7 @@ export const postCreatePaymentIntent: RequestHandler = async (req, res) => {
     res.send(response);
 };
 
-export const postBooking: RequestHandler = async (req, res, next) => {
+export const postBooking: RequestHandler = async (req, res) => {
     try {
         const paymentIntentId = req.body.paymentIntentId;
 

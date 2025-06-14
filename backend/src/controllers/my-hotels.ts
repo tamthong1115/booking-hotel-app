@@ -81,14 +81,14 @@ export const getOneHotel: RequestHandler = async (req, res) => {
         });
         res.json(hotel);
     } catch (error) {
-        res.status(500).json({ message: "Error fetching hotels" });
+        res.status(500).json({ message: "Error fetching hotels" + error });
     }
 };
 
 export const editHotel: RequestHandler = async (req, res, next) => {
     try {
-        // console.log(req.body);
         const updatedHotel: HotelType = req.body;
+        console.log(`\nUpdateHotel: ${JSON.stringify(req.body, null, 2)}\n`);
         updatedHotel.lastUpdated = new Date();
 
         const hotelBefore = await Hotel.findOne({
@@ -194,7 +194,7 @@ export const deleteHotel: RequestHandler = async (req, res) => {
 
         res.status(200).json({ message: "Hotel deleted" });
     } catch (error) {
-        res.status(500).json({ message: "Error deleting hotel" });
+        res.status(500).json({ message: "Error deleting hotel" + error });
     }
 };
 
