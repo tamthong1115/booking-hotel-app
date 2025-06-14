@@ -21,6 +21,8 @@ jobs:
         run: |
           echo "BOOKING_EMAIL=${{ secrets.BOOKING_EMAIL }}" >> ./backend/.env.e2e
           echo "BOOKING_EMAIL_PASSWORD=${{ secrets.BOOKING_EMAIL_PASSWORD }}" >> ./backend/.env.e2e
+          echo "GOOGLE_OAUTH_CLIENT_ID=${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}" >> ./backend/.env.e2e
+          echo "GOOGLE_OAUTH_CLIENT_SECRET=${{ secrets.GOOGLE_OAUTH_CLIENT_SECRET }}" >> ./backend/.env.e2e
           echo "CLOUDINARY_API_KEY=${{ secrets.CLOUDINARY_API_KEY }}" >> ./backend/.env.e2e
           echo "CLOUDINARY_API_SECRET=${{ secrets.CLOUDINARY_API_SECRET }}" >> ./backend/.env.e2e
           echo "CLOUDINARY_CLOUD_NAME=${{ secrets.CLOUDINARY_CLOUD_NAME }}" >> ./backend/.env.e2e

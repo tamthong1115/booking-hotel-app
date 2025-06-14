@@ -2,13 +2,9 @@ import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
-import classNames from "classnames/bind";
-import styles from "./SignIn.module.scss";
 import Buttons from "../../components/Buttons";
 import { signIn } from "../../ApiClient/api-users.ts";
 import { useToast } from "../../context/ToastContext.tsx";
-
-const cx = classNames.bind(styles);
 
 export type SignInFormData = {
     email: string;
@@ -20,6 +16,11 @@ const SignIn = () => {
     const navigate = useNavigate();
 
     const location = useLocation();
+
+    // for reading error from google auth
+    const params = new URLSearchParams(location.search);
+    const oauthError = params.get("error");
+
     const {
         register,
         handleSubmit,
@@ -47,11 +48,12 @@ const SignIn = () => {
     return (
         <div className="flex flex-col items-center justify-center px-3 py-4 lg:py-0">
             <div className="w-full rounded-lg shadow-lg sm:max-w-md md:mt-0 xl:p-0">
+                {oauthError && <div className="mb-4 rounded  px-4 py-3 text-red-700">{oauthError}</div>}
                 <div className="space-y-4 p-6 sm:p-8 md:space-y-6">
-                    <div className={cx("header-title")}>
-                        <h1 className={cx("heading")}>Sign In</h1>
+                    <div className="flex items-center justify-between my-1 mb-7">
+                        <h1 className="text-[26px] font-normal text-[#333] cursor-pointer">Sign In</h1>{" "}
                         <Link to="/register">
-                            <h4 className={cx("switch-btn")}>Register</h4>
+                            <h4 className="text-[16px] font-normal cursor-pointer text-red-500">Register</h4>
                         </Link>
                     </div>
                     <form className="flex flex-col gap-5" onSubmit={onSubmit}>
@@ -83,27 +85,41 @@ const SignIn = () => {
                             />
                             {errors.password && <span className="text-red-600">{errors.password.message}</span>}
                         </label>
-                        <div className={cx("form-aside")}>
-                            <div className={cx("help")}>
-                                <Link to="/forget-password" className={cx("help-link", "forgot")}>
+                        <div className="mt-4">
+                            <div className="flex justify-end">
+                                <Link to="/forget-password" className="text-red-500 text-sm">
                                     Forgot password
                                 </Link>
-                                <span className={cx("separate")}></span>
-                                <a href="" className={cx("help-link")}>
-                                    Need help
-                                </a>
                             </div>
                         </div>
-                        <span className={cx("controls")}>
-                            <Buttons type="submit" text className={cx("btn", "btn-primary")}>
-                                Login
-                            </Buttons>
-                            <Link to="/">
-                                <Buttons text className={cx("btn")}>
-                                    Return
+                        {/* rgba(249, 52, 52, 0.5) */}
+                        <span className="flex justify-center">
+                            <div className="mt-5 flex items-center justify-end">
+                                <Buttons className="min-w-[142px] h-10 text-base p-0 font-medium border-none outline-none text-white flex items-center leading-none justify-center rounded bg-[rgba(249,52,52,0.5)] mr-4 hover:bg-[rgba(249,52,52,1)]">
+                                    Login
                                 </Buttons>
-                            </Link>
+                            </div>
                         </span>
+                        <div className="flex items-center my-4">
+                            <hr className="flex-grow border-t border-gray-300" />
+                            <span className="mx-3 text-gray-500 text-sm">Or sign in with</span>
+                            <hr className="flex-grow border-t border-gray-300" />
+                        </div>
+                        <div className="flex justify-center">
+                            <button
+                                type="button"
+                                className="flex items-center  rounded bg-white border p-7 shadow hover:border-blue-400"
+                                onClick={() => {
+                                    window.location.href = `${import.meta.env.VITE_API_BASE_URL}/api/auth/google`;
+                                }}
+                            >
+                                <img
+                                    src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+                                    alt="Google"
+                                    className="w-8 h-8"
+                                />
+                            </button>
+                        </div>
                         <div className="text-sm dark:text-gray-400">
                             Not registered?{" "}
                             <a
