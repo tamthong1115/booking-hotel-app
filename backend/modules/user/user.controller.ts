@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import User from "../models/user";
+import User from "./user";
 
 export const getCurrentUser = async (req: Request, res: Response) => {
     const userId = req.userId;

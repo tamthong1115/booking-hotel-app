@@ -8,13 +8,14 @@ import {
     postLogout,
     postRegister,
     postResetPassword,
-} from "../controllers/auth";
-import verifyTokenUser from "../middlewares/verifyTokenUser";
-import roleMiddleware from "../middlewares/roleMiddleware";
-import { loginValidator, registerValidator } from "./validation/schemas/authSchemas";
-import passport from "../utils/passport";
-import generateToken from "../utils/generateToken";
+} from "./auth.controller";
+import verifyTokenUser from "../../src/middlewares/verifyTokenUser";
+import roleMiddleware from "../../src/middlewares/roleMiddleware";
+import { loginValidator, registerValidator } from "./auth.validation";
+import passport from "../../src/utils/passport";
+import generateToken from "../../src/utils/generateToken";
 import { UserType } from "../../shared/types";
+
 const router = express.Router();
 
 // /api/auth/login

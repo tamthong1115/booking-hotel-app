@@ -1,5 +1,5 @@
-import Joi, { ObjectSchema } from "joi";
-import schemaValidator from "../middlewares/schemaValidator";
+import Joi from "joi";
+import schemaValidator from "../../src/routes/validation/middlewares/schemaValidator";
 
 const PASSWORD_REGEX = new RegExp("^(?=.*[0-9])(?=.*[!@#$%^&*]).{6,}$");
 
