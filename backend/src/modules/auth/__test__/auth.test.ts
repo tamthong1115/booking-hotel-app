@@ -4,7 +4,7 @@ import { Request, Response } from "express";
 import nodemailer from "nodemailer";
 import { randomUUID } from "node:crypto";
 import User from "../../user/user";
-import connectToDatabase from "../../utils/connectToDatabase";
+import connectToDatabase from "../../../utils/connectToDatabase";
 import mongoose from "mongoose";
 import { ObjectId } from "mongodb";
 import { UserType } from "../../../../shared/types";
