@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
-import Hotel from "../../models/hotel";
-import User from "../../models/user";
+import Hotel from "../../modules/hotel/hotel";
+import User from "../../modules/user/user";
 import connectToDatabase from "../../utils/connectToDatabase";
 import mongoose from "mongoose";
 import { createTestUser, deleteTestUser, userTemplates } from "./testUserData";
@@ -24,17 +24,15 @@ vi.mock("Hotel", () => ({
 beforeAll(async () => {
     await connectToDatabase();
     await createTestUser("admin");
-})
-
-afterEach(async () => {
 });
+
+afterEach(async () => {});
 
 afterAll(async () => {
     await deleteTestUser("admin");
     await Hotel.deleteMany({ name: "Test Hotel" });
     await mongoose.connection.close();
 });
-
 
 describe("Hotel Controller", () => {
     it("should create and save a hotel", async () => {

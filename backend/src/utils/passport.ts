@@ -1,6 +1,6 @@
 import passport from "passport";
 import { Strategy as GoogleStrategy, Profile, VerifyCallback } from "passport-google-oauth20";
-import User from "../models/user";
+import User from "../modules/user/user";
 import { Document } from "mongoose";
 
 passport.use(
@@ -20,7 +20,7 @@ passport.use(
                         // Email already registered with another method
                         // Here we send failure (false) and include a message via 'info'
                         return done(null, false, {
-                            message: "Email already exists. Please sign in with your email and password.",
+                            message: "Email already exists. Please sign in with your notification and password.",
                         });
                     }
                     user = new User({

@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import User from "../models/user";
+import User from "../modules/user/user";
 
 const roleMiddleware = (requiredRoles: string[]): RequestHandler => {
     return async (req, res, next) => {

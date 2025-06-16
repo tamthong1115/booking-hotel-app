@@ -1,4 +1,5 @@
-import User from "../../models/user";
+import User from "../../modules/user/user";
+
 export const userTemplates = {
     user: {
         email: "testuser@example.com",
