@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcryptjs";
 import { UserType } from "@shared/types";
 
@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema<UserType>({
     birthday: { type: Date, required: false },
     nationality: { type: String, required: false },
     emailVerified: { type: Boolean, required: true, default: false },
-    roles: [{ type: String, required: true, default: "user" }],
+    roles: [{ type: Schema.Types.ObjectId, ref: "Role", required: true }],
 });
 
 // Unique index for phoneNumber only when it exists and is not null
