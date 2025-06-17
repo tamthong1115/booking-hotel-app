@@ -33,7 +33,10 @@ const Register = () => {
 
     const { mutate } = useMutation(userClient.register, {
         onSuccess: async () => {
-            showToast({ message: "Registration Successful! Check your email to verify email", type: "SUCCESS" });
+            showToast({
+                message: "Registration Successful! Check your notification to verify notification",
+                type: "SUCCESS",
+            });
             await queryClient.invalidateQueries("validateToken"); // from isError AppContext
         },
         onError: (error: Error) => {

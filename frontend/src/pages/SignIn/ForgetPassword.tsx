@@ -15,14 +15,14 @@ const ForgetPassword = () => {
         formState: { errors },
     } = useForm<ForgetPasswordFormData>();
 
-    // use useMutation hook to send email
+    // use useMutation hook to send notification
     const onSubmit = async (data: ForgetPasswordFormData) => {
         try {
             await sendPasswordMail(data);
-            showToast({ message: "Check your email to reset password", type: "SUCCESS" });
+            showToast({ message: "Check your notification to reset password", type: "SUCCESS" });
         } catch (error) {
             console.error("ForgetPassword error:", error);
-            showToast({ message: "Error sending email", type: "ERROR" });
+            showToast({ message: "Error sending notification", type: "ERROR" });
         }
     };
 

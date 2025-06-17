@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import * as authService from "./auth.service";
-import generateToken from "../../utils/generateToken";
+import * as authService from "../service/auth.service";
+import generateToken from "../../../utils/generateToken";
 
 function getErrorMessage(error: unknown): string {
     if (error instanceof Error) return error.message;

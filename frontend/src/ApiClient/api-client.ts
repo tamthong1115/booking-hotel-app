@@ -18,24 +18,24 @@ export const postNewContactUs = async (formData: ContactUsFormData) => {
     });
 
     if (!response.ok) {
-        throw new Error("Error sending email");
+        throw new Error("Error sending notification");
     }
 
     return response.json();
 };
 
-// verify-email/:token
+// verify-notification/:token
 export const verifyEmail = async (token: string) => {
     const response = await fetch(`${API_BASE_URL}/api/auth/verify-email/${token}`);
 
     if (!response.ok) {
-        throw new Error("Error verifying email");
+        throw new Error("Error verifying notification");
     }
 
     return response.json();
 };
 
-// resend email verification
+// resend notification verification
 export const resendEmailVerification = async (email: string) => {
     const response = await fetch(`${API_BASE_URL}/api/auth/resend-email-verification`, {
         method: "POST",
@@ -46,7 +46,7 @@ export const resendEmailVerification = async (email: string) => {
     });
 
     if (!response.ok) {
-        throw new Error("Error resending email verification");
+        throw new Error("Error resending notification verification");
     }
 
     return response.json();
@@ -67,7 +67,7 @@ export const sendPasswordMail = async (data: ForgetPasswordFormData) => {
     });
 
     if (!response.ok) {
-        throw new Error("Error sending email");
+        throw new Error("Error sending notification");
     }
 
     return response.json();

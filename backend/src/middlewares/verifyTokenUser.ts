@@ -1,15 +1,5 @@
 import { RequestHandler } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import User from "../modules/user/user";
-
-declare global {
-    namespace Express {
-        interface Request {
-            userId?: string;
-            roles?: string[];
-        }
-    }
-}
 
 const verifyTokenUser: RequestHandler = async (req, res, next) => {
     const token = req.cookies["auth_token"];
@@ -21,7 +11,7 @@ const verifyTokenUser: RequestHandler = async (req, res, next) => {
         req.userId = (decoded as JwtPayload).userId;
         next();
     } catch (error) {
-        console.log;
+        console.error("Token verification error:", error);
         return res.status(401).json({ message: "get authorized failed" });
     }
 };

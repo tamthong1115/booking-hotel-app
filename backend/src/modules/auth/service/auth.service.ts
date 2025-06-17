@@ -1,8 +1,8 @@
-import User from "../user/user";
+import User from "../../user/user";
 import bcrypt from "bcryptjs";
 import nodemailer from "nodemailer";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import { RegisterPayload } from "./auth.types";
+import { RegisterPayload } from "../types/auth.types";
 
 const WEB_URL = process.env.WEB_URL || "http://localhost:5173";
 

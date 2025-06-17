@@ -4,7 +4,7 @@ import cors from "cors";
 import "dotenv/config";
 import ExpressHandler from "./src/middlewares/ExpressHandler";
 import userRoutes from "./src/modules/user/user.routes";
-import authRoutes from "./src/modules/auth/auth.routes";
+import authRoutes from "./src/modules/auth/routes/auth.routes";
 import myHotelRoutes from "./src/modules/hotel/hotel.admin.routes";
 import hotelRoutes from "./src/modules/hotel/hotels.routes";
 import bookingRoutes from "./src/modules/booking/booking.routes";

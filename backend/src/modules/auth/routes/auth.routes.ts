@@ -8,13 +8,18 @@ import {
     postLogout,
     postRegister,
     postResetPassword,
-} from "./auth.controller";
-import verifyTokenUser from "../../middlewares/verifyTokenUser";
-import roleMiddleware from "../../middlewares/roleMiddleware";
-import { loginValidator, registerValidator } from "./auth.validation";
-import passport from "../../utils/passport";
-import generateToken from "../../utils/generateToken";
-import { UserType } from "../../../shared/types";
+} from "../controller/auth.controller";
+import verifyTokenUser from "../../../middlewares/verifyTokenUser";
+import roleMiddleware from "../../../middlewares/roleMiddleware";
+import {
+    forgetPasswordValidator,
+    loginValidator,
+    registerValidator,
+    resetPasswordValidator,
+} from "../validation/auth.routes.validation";
+import passport from "../../../utils/passport";
+import generateToken from "../../../utils/generateToken";
+import { UserType } from "../../../../shared/types";
 
 const router = express.Router();
 
@@ -69,8 +74,8 @@ router.get("/google/callback", (req, res, next) => {
         },
     )(req, res, next);
 });
-router.post("/forget-password", postForgetPassword);
-router.post("/reset-password", postResetPassword);
+router.post("/forget-password", forgetPasswordValidator, postForgetPassword);
+router.post("/reset-password", resetPasswordValidator, postResetPassword);
 
 router.get("/validate-token", verifyTokenUser, getValidateToken);
 

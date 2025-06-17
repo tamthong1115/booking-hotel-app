@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import { postLogin, postRegister } from "../auth.controller";
+import { postLogin, postRegister } from "../controller/auth.controller";
 import { Request, Response } from "express";
 import nodemailer from "nodemailer";
 import { randomUUID } from "node:crypto";

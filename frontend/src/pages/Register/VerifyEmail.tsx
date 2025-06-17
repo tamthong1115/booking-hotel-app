@@ -7,7 +7,7 @@ const VerifyEmail = () => {
     const { token } = useParams<{ token: string }>();
     const navigate = useNavigate();
 
-    const { data, error, isLoading } = useQuery(["verify-email", token], () => verifyEmail(token as string));
+    const { data, error, isLoading } = useQuery(["verify-notification", token], () => verifyEmail(token as string));
 
     if (isLoading) {
         return LoadingComponent({ isLoading: true });
