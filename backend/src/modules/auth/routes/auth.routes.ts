@@ -8,28 +8,125 @@ import {
     postLogout,
     postRegister,
     postResetPassword,
+    googleCallback,
 } from "../controller/auth.controller";
-import verifyTokenUser from "../../../middlewares/verifyTokenUser";
-import roleMiddleware from "../../../middlewares/roleMiddleware";
+import verifyTokenUser from "@middlewares/verifyTokenUser";
+import roleMiddleware from "@middlewares/roleMiddleware";
 import {
     forgetPasswordValidator,
     loginValidator,
     registerValidator,
     resetPasswordValidator,
 } from "../validation/auth.routes.validation";
-import passport from "../../../utils/passport";
-import generateToken from "../../../utils/generateToken";
-import { UserType } from "../../../../shared/types";
+import passport from "@utils/passport";
 
 const router = express.Router();
 
-// /api/auth/login
+/**
+ * @swagger
+ * tags:
+ *   name: Auth
+ *   description: Authentication and authorization
+ */
+
+/**
+ * @swagger
+ * /auth/login:
+ *   post:
+ *     summary: User login
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Login successful
+ *       400:
+ *         description: Invalid credentials
+ */
 router.post("/login", loginValidator, postLogin);
+
+/**
+ * @swagger
+ * /auth/register:
+ *   post:
+ *     summary: Register a new user
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - firstName
+ *               - lastName
+ *               - email
+ *               - password
+ *               - confirmPassword
+ *             properties:
+ *               firstName:
+ *                 type: string
+ *               lastName:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *                 format: email
+ *               password:
+ *                 type: string
+ *               confirmPassword:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: User registered successfully
+ *       400:
+ *         description: Validation error
+ */
 router.post("/register", registerValidator, postRegister);
+
+/**
+ * @swagger
+ * /auth/verify-email/{token}:
+ *   get:
+ *     summary: Verify user email
+ *     tags: [Auth]
+ *     parameters:
+ *       - in: path
+ *         name: token
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Verification token
+ *     responses:
+ *       200:
+ *         description: Email verified
+ *       400:
+ *         description: Invalid or expired token
+ */
 router.get("/verify-email/:token", getVerifyEmail);
 
 /**
- * Starts the Google OAuth 2.0 flow.
+ * @swagger
+ * /auth/google:
+ *   get:
+ *     summary: Start Google OAuth 2.0 login
+ *     tags: [Auth]
+ *     description: Redirects the user to Google for authentication.
+ *     responses:
+ *       302:
+ *         description: Redirect to Google OAuth
  */
 router.get(
     "/google",
@@ -40,45 +137,112 @@ router.get(
 );
 
 /**
- * Handles callback from Google.
- * Uses custom callback to manage errors and token flow.
+ * @swagger
+ * /auth/google/callback:
+ *   get:
+ *     summary: Google OAuth 2.0 callback
+ *     tags: [Auth]
+ *     description: Handles the callback from Google after authentication. On success, issues a JWT and sets a cookie, then redirects to the frontend.
+ *     parameters:
+ *       - in: query
+ *         name: code
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: Google OAuth code (provided by Google)
+ *     responses:
+ *       302:
+ *         description: Redirect to frontend with authentication result
  */
-router.get("/google/callback", (req, res, next) => {
-    passport.authenticate(
-        "google",
-        { session: false },
-        async (err: Error | null, user: UserType | false, info: { message?: string } | undefined) => {
-            // System-level error during authentication
-            if (err) {
-                console.error("Passport error:", err);
-                const url = `${process.env.WEB_URL || "http://localhost:5173"}/sign-in?error=${encodeURIComponent("Internal server error.")}`;
-                return res.redirect(url);
-            }
+router.get("/google/callback", googleCallback);
 
-            // Auth flow error (e.g. custom info.message)
-            if (!user) {
-                const message = info?.message || "Authentication failed.";
-                const url = `${process.env.WEB_URL || "http://localhost:5173"}/sign-in?error=${encodeURIComponent(message)}`;
-                return res.redirect(url);
-            }
-
-            // Success: issue JWT and set cookie
-            try {
-                await generateToken(res, user._id);
-                return res.redirect(process.env.WEB_URL || "/");
-            } catch (tokenErr) {
-                console.error("Token error:", tokenErr);
-                const url = `${process.env.WEB_URL || "http://localhost:5173"}/sign-in?error=${encodeURIComponent("Failed to generate token.")}`;
-                return res.redirect(url);
-            }
-        },
-    )(req, res, next);
-});
+/**
+ * @swagger
+ * /auth/forget-password:
+ *   post:
+ *     summary: Request password reset
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *     responses:
+ *       200:
+ *         description: Password reset email sent
+ *       400:
+ *         description: Validation error
+ */
 router.post("/forget-password", forgetPasswordValidator, postForgetPassword);
+
+/**
+ * @swagger
+ * /auth/reset-password:
+ *   post:
+ *     summary: Reset user password
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - token
+ *               - password
+ *               - confirmPassword
+ *             properties:
+ *               token:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *               confirmPassword:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Password reset successful
+ *       400:
+ *         description: Validation error
+ */
 router.post("/reset-password", resetPasswordValidator, postResetPassword);
 
+/**
+ * @swagger
+ * /auth/validate-token:
+ *   get:
+ *     summary: Validate user token
+ *     tags: [Auth]
+ *     security:
+ *       - cookieAuth: []
+ *     responses:
+ *       200:
+ *         description: Token is valid
+ *       401:
+ *         description: Unauthorized
+ */
 router.get("/validate-token", verifyTokenUser, getValidateToken);
 
+/**
+ * @swagger
+ * /auth/roles:
+ *   get:
+ *     summary: Get user roles
+ *     tags: [Auth]
+ *     security:
+ *       - cookieAuth: []
+ *     responses:
+ *       200:
+ *         description: List of user roles
+ *       401:
+ *         description: Unauthorized
+ */
 router.get("/roles", verifyTokenUser, getRoles);
 
 router.get(
@@ -88,6 +252,16 @@ router.get(
     getValidateToken,
 );
 
+/**
+ * @swagger
+ * /auth/logout:
+ *   post:
+ *     summary: Logout user
+ *     tags: [Auth]
+ *     responses:
+ *       200:
+ *         description: Logout successful
+ */
 router.post("/logout", postLogout);
 
 export default router;

@@ -1,7 +1,7 @@
 import express from "express";
 import { deleteHotel, editHotel, getHotels, getOneHotel, postNewHotel } from "./hotel.admin.controller";
 import multer from "multer";
-import roleMiddleware from "../../middlewares/roleMiddleware";
+import roleMiddleware from "@middlewares/roleMiddleware";
 import { body } from "express-validator";
 
 const router = express.Router();

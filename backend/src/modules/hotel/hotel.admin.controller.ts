@@ -1,10 +1,10 @@
 import { RequestHandler } from "express";
 import cloudinary from "cloudinary";
-import ExpressError from "../../utils/ExpressError";
+import ExpressError from "@utils/ExpressError";
 import Hotel from "./hotel";
-import { HotelType } from "../../../types/typesBackend";
+import { HotelType } from "@shared/types";
 import mbxGeocoding from "@mapbox/mapbox-sdk/services/geocoding";
-import { uploadImages } from "../../utils/upload-images";
+import { uploadImages } from "@utils/upload-images";
 import "dotenv/config";
 
 const geocodingClient = mbxGeocoding({

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { RoomType } from "../../../shared/types";
+import { RoomType } from "@shared/types";
 
 const roomSchema = new mongoose.Schema<RoomType>({
     name: { type: String, required: true },

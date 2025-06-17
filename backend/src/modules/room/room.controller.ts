@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import Room from "./room";
-import Hotel from "../hotel/hotel";
-import { RoomType } from "../../../shared/types";
+import Hotel from "@modules/hotel/hotel";
+import { RoomType } from "@shared/types";
 
 export const addNewRoom: RequestHandler = async (req, res, next) => {
     try {

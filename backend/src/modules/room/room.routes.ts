@@ -1,6 +1,6 @@
 import express from "express";
 import { addNewRoom, getRooms } from "./room.controller";
-import roleMiddleware from "../../middlewares/roleMiddleware";
+import roleMiddleware from "@middlewares/roleMiddleware";
 
 const router = express.Router();
 

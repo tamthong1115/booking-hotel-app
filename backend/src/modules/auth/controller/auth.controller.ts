@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import * as authService from "../service/auth.service";
-import generateToken from "../../../utils/generateToken";
+import generateToken from "@utils/generateToken";
+import { UserType } from "@shared/types";
 
 function getErrorMessage(error: unknown): string {
     if (error instanceof Error) return error.message;
@@ -52,6 +53,35 @@ export const postResetPassword = async (req: Request, res: Response) => {
     } catch (error) {
         res.status(400).json({ message: getErrorMessage(error) || "Something went wrong" });
     }
+};
+
+export const googleCallback = (req: Request, res: Response, next: NextFunction) => {
+    passport.authenticate(
+        "google",
+        { session: false },
+        async (err: Error | null, user: UserType | false, info: { message?: string } | undefined) => {
+            if (err) {
+                console.error("Passport error:", err);
+                const url = `${process.env.WEB_URL || "http://localhost:5173"}/sign-in?error=${encodeURIComponent("Internal server error.")}`;
+                return res.redirect(url);
+            }
+
+            if (!user) {
+                const message = info?.message || "Authentication failed.";
+                const url = `${process.env.WEB_URL || "http://localhost:5173"}/sign-in?error=${encodeURIComponent(message)}`;
+                return res.redirect(url);
+            }
+
+            try {
+                await generateToken(res, user._id);
+                return res.redirect(process.env.WEB_URL || "/");
+            } catch (tokenErr) {
+                console.error("Token error:", tokenErr);
+                const url = `${process.env.WEB_URL || "http://localhost:5173"}/sign-in?error=${encodeURIComponent("Failed to generate token.")}`;
+                return res.redirect(url);
+            }
+        },
+    )(req, res, next);
 };
 
 export const getValidateToken = (req: Request, res: Response) => {

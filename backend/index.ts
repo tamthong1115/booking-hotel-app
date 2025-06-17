@@ -7,13 +7,14 @@ import userRoutes from "./src/modules/user/user.routes";
 import authRoutes from "./src/modules/auth/routes/auth.routes";
 import myHotelRoutes from "./src/modules/hotel/hotel.admin.routes";
 import hotelRoutes from "./src/modules/hotel/hotels.routes";
-import bookingRoutes from "./src/modules/booking/booking.routes";
+import bookingRoutes from "./src/modules/booking/routes/booking.routes";
 import reviewRoutes from "./src/modules/review/review.routes";
 import roomRoutes from "./src/modules/room/room.routes";
 import emailRoutes from "./src/modules/notification/email.routes";
 import cookieParser from "cookie-parser";
 import connectToDatabase from "./src/utils/connectToDatabase";
 import { v2 as cloudinary } from "cloudinary";
+import { swaggerSpec, swaggerUi } from "./src/swagger";
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -53,6 +54,7 @@ app.use("/api/my-bookings", bookingRoutes);
 app.use("/api/hotels/:hotelId/reviews", reviewRoutes);
 app.use("/api/hotels/:hotelId/rooms", roomRoutes);
 app.use("/api/notification", emailRoutes);
+app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.get("*", (req: Request, res: Response) => {
     res.sendFile(path.join(__dirname, "../../frontend/dist/index.html"));

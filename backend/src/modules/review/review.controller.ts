@@ -1,8 +1,8 @@
 import { RequestHandler } from "express";
 import Review from "./review";
-import Hotel from "../hotel/hotel";
-import CustomError from "../../utils/ExpressError";
-import { BookingType } from "../../../shared/types";
+import Hotel from "@modules/hotel/hotel";
+import CustomError from "@utils/ExpressError";
+import { BookingType } from "@shared/types";
 
 export const postNewReview: RequestHandler = async (req, res, next) => {
     try {

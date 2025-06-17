@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
-import { HotelType } from "../../../types/typesBackend";
+import { HotelType } from "@shared/types";
 import Review from "../review/review";
-import Room from "../room/room";
+import Room from "@modules/room/room";
 
 const hotelSchema = new mongoose.Schema<HotelType>({
     userId: { type: String, required: true },

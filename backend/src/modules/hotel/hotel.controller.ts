@@ -1,12 +1,12 @@
 import { RequestHandler } from "express";
 import Hotel from "./hotel";
-import { BookingType, HotelSearchResponse, RoomType } from "../../../shared/types";
+import { BookingType, HotelSearchResponse, RoomType } from "@shared/types";
 import { validationResult } from "express-validator";
-import CustomError from "../../utils/ExpressError";
+import CustomError from "@utils/ExpressError";
 import Stripe from "stripe";
 import "dotenv/config";
-import Booking from "../booking/booking";
-import Room from "../room/room";
+import Booking from "@modules/booking/model/booking";
+import Room from "@modules/room/room";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 

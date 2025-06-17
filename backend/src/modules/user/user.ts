@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
-import { UserType } from "../../../shared/types";
+import { UserType } from "@shared/types";
 
 const userSchema = new mongoose.Schema<UserType>({
     googleId: { type: String, required: false, unique: true },

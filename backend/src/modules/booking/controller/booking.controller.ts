@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
-import CustomError from "../../utils/ExpressError";
-import Hotel from "../hotel/hotel";
-import { BookingType } from "../../../shared/types";
+import CustomError from "@utils/ExpressError";
+import Hotel from "@modules/hotel/hotel";
+import { BookingType } from "@shared/types";
 
 export const getBookings: RequestHandler = async (req, res, next) => {
     try {

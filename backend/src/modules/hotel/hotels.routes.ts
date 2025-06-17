@@ -1,7 +1,7 @@
 import express from "express";
 import { getHotelById, getHotels, postBooking, postCreatePaymentIntent, searchHotels } from "./hotel.controller";
 import { param } from "express-validator";
-import verifyTokenUser from "../../middlewares/verifyTokenUser";
+import verifyTokenUser from "@middlewares/verifyTokenUser";
 
 const router = express.Router();
 

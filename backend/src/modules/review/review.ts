@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { ReviewType } from "../../../shared/types";
+import { ReviewType } from "@shared/types";
 
 const reviewSchema = new mongoose.Schema<ReviewType>({
     userId: { type: String, required: true },

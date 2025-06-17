@@ -11,7 +11,6 @@ export type UserType = {
     birthday?: Date;
     nationality?: string;
     emailVerified: boolean;
-    // isAdmin: boolean;
     roles: string[];
 };
 

@@ -1,5 +1,5 @@
 import express from "express";
-import verifyTokenUser from "../../middlewares/verifyTokenUser";
+import verifyTokenUser from "@middlewares/verifyTokenUser";
 import { getCurrentUser, updateUser } from "./user.controller";
 
 const router = express.Router();
