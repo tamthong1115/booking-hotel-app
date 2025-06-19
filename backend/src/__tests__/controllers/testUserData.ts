@@ -1,4 +1,4 @@
-import User from "../../modules/user/user";
+import UserModel from "@modules/user/user";
 
 export const userTemplates = {
     user: {
@@ -21,13 +21,13 @@ export const userTemplates = {
 
 export async function createTestUser(type: keyof typeof userTemplates = "user") {
     const data = userTemplates[type];
-    await User.deleteMany({ email: data.email });
-    const user = new User(data);
+    await UserModel.deleteMany({ email: data.email });
+    const user = new UserModel(data);
     await user.save();
     return user;
 }
 
 export async function deleteTestUser(type: keyof typeof userTemplates = "user") {
     const data = userTemplates[type];
-    await User.deleteMany({ email: data.email });
+    await UserModel.deleteMany({ email: data.email });
 }

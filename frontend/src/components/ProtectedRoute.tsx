@@ -1,6 +1,6 @@
 import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import { useAppContext } from "../context/AppContext";
+import { useAppContext } from "../../app/context/AppContext.tsx";
 import LoadingComponent from "./Loading/Loading.tsx";
 
 interface ProtectedRouteProps {

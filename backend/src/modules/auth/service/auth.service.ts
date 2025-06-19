@@ -1,4 +1,4 @@
-import User from "../../user/user";
+import UserModel from "@modules/user/user";
 import bcrypt from "bcryptjs";
 import nodemailer from "nodemailer";
 import jwt, { JwtPayload } from "jsonwebtoken";
@@ -7,10 +7,10 @@ import { RegisterPayload } from "../types/auth.types";
 const WEB_URL = process.env.WEB_URL || "http://localhost:5173";
 
 export async function registerUser(userData: RegisterPayload) {
-    let user = await User.findOne({ email: userData.email });
+    let user = await UserModel.findOne({ email: userData.email });
     if (user) throw new Error("User already exists");
 
-    user = new User(userData);
+    user = new UserModel(userData);
 
     const transporter = nodemailer.createTransport({
         service: "gmail",
@@ -38,14 +38,14 @@ export async function registerUser(userData: RegisterPayload) {
 
 export async function verifyEmail(token: string) {
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY || "");
-    const user = await User.findById((decoded as JwtPayload).userId);
+    const user = await UserModel.findById((decoded as JwtPayload).userId);
     if (!user) throw new Error("User not found");
     user.emailVerified = true;
     await user.save();
 }
 
 export async function loginUser(email: string, password: string) {
-    const user = await User.findOne({ email });
+    const user = await UserModel.findOne({ email });
     if (!user) throw new Error("Email or password is incorrect");
     if (!user.emailVerified) throw new Error("Email not verified");
 
@@ -57,7 +57,7 @@ export async function loginUser(email: string, password: string) {
 }
 
 export async function sendResetPasswordEmail(email: string) {
-    const user = await User.findOne({ email });
+    const user = await UserModel.findOne({ email });
     if (!user) throw new Error("User not found");
 
     const transporter = nodemailer.createTransport({
@@ -87,7 +87,7 @@ export async function resetPassword(token: string, password: string, confirmPass
     if (password !== confirmPassword) throw new Error("Passwords do not match");
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY || "");
-    const user = await User.findById((decoded as JwtPayload).userId);
+    const user = await UserModel.findById((decoded as JwtPayload).userId);
     if (!user) throw new Error("User not found");
 
     user.password = password;
@@ -95,7 +95,7 @@ export async function resetPassword(token: string, password: string, confirmPass
 }
 
 export async function getUserRoles(userId: string) {
-    const user = await User.findById(userId);
+    const user = await UserModel.findById(userId);
     if (!user) throw new Error("User not found");
     return user.roles;
 }

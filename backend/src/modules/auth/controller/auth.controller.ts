@@ -1,7 +1,8 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import * as authService from "../service/auth.service";
 import generateToken from "@utils/generateToken";
 import { UserType } from "@shared/types";
+import passport from "passport";
 
 function getErrorMessage(error: unknown): string {
     if (error instanceof Error) return error.message;

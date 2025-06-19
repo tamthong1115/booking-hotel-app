@@ -9,7 +9,7 @@ import classNames from "classnames/bind";
 import styles from "./UserMenu.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faKey, faRightFromBracket, faUser } from "@fortawesome/free-solid-svg-icons";
-import { fetchCurrentUser } from "../../ApiClient/api-users.ts";
+import { fetchCurrentUser } from "../../../ApiClient/api-users.ts";
 
 const cx = classNames.bind(styles);
 

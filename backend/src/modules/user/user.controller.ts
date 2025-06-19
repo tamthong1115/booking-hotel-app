@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
-import User from "./user";
+import UserModel from "./user";
 
 export const getCurrentUser = async (req: Request, res: Response) => {
     const userId = req.userId;
 
     try {
-        const user = await User.findById(userId).select("-password"); // exclude password
+        const user = await UserModel.findById(userId).select("-password"); // exclude password
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
@@ -21,7 +21,7 @@ export const updateUser = async (req: Request, res: Response) => {
     const userId = req.userId;
 
     try {
-        const user = await User.findByIdAndUpdate(userId, req.body, {
+        const user = await UserModel.findByIdAndUpdate(userId, req.body, {
             new: true,
             runValidators: true,
         }).select("-password");

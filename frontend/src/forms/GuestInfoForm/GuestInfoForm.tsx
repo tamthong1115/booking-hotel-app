@@ -1,10 +1,10 @@
 import { useForm } from "react-hook-form";
 import DatePicker from "react-datepicker";
-import { useSearchContext } from "../../context/SearchContext";
-import { useAppContext } from "../../context/AppContext";
+import { useSearchContext } from "../../../app/context/SearchContext.tsx";
+import { useAppContext } from "../../../app/context/AppContext.tsx";
 import { useLocation, useNavigate } from "react-router-dom";
-import { RoomType } from "../../../../backend/shared/types.ts";
-import { HotelTypeFrontend } from "../../types/types.ts";
+import { RoomType } from "../../../../../backend/shared/types.ts";
+import { HotelTypeFrontend } from "../../../shared/types/types.ts";
 
 type Props = {
     hotel: HotelTypeFrontend;

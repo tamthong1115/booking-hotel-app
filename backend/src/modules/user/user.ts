@@ -1,9 +1,26 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema, Document, Types } from "mongoose";
 import bcrypt from "bcryptjs";
 import { UserType } from "@shared/types";
+import { Role } from "@modules/user/role";
 
-const userSchema = new mongoose.Schema<UserType>({
-    googleId: { type: String, required: false, unique: true },
+export interface User extends Document {
+    _id: Types.ObjectId;
+    googleId?: string;
+    email: string;
+    password?: string;
+    firstName?: string;
+    lastName?: string;
+    phoneNumber?: string;
+    address?: string;
+    gender?: string;
+    birthday?: Date;
+    nationality?: string;
+    emailVerified: boolean;
+    roles: Role[];
+}
+
+const userSchema = new mongoose.Schema<User>({
+    googleId: { type: String, required: false },
     email: { type: String, required: true, unique: true },
     password: { type: String },
     firstName: { type: String },
@@ -17,11 +34,7 @@ const userSchema = new mongoose.Schema<UserType>({
     roles: [{ type: Schema.Types.ObjectId, ref: "Role", required: true }],
 });
 
-// Unique index for phoneNumber only when it exists and is not null
-userSchema.index(
-    { phoneNumber: 1 },
-    { unique: true, partialFilterExpression: { phoneNumber: { $exists: true, $ne: null } } },
-);
+userSchema.index({ googleId: 1 }, { unique: true, sparse: true });
 
 // Hash the password before saving the user model
 userSchema.pre("save", async function (this: mongoose.Document & UserType, next) {
@@ -34,6 +47,6 @@ userSchema.pre("save", async function (this: mongoose.Document & UserType, next)
     next();
 });
 
-const User = mongoose.model<UserType>("User", userSchema);
+const UserModel = mongoose.model<User>("User", userSchema);
 
-export default User;
+export default UserModel;

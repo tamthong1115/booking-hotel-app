@@ -1,4 +1,4 @@
-import { hotelFacilities } from "../../config/hotel-options-config.ts";
+import { hotelFacilities } from "../../../app/config/hotel-options-config.ts";
 
 type Props = {
     selectedFacilities: string[];

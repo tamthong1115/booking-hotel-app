@@ -1,9 +1,9 @@
 import { useMutation, useQueryClient } from "react-query";
 import { useForm } from "react-hook-form";
-import { ReviewType, UserType } from "../../../../backend/shared/types";
-import LoadingComponent from "../../components/Loading/Loading";
-import { postNewReview } from "../../ApiClient/api-reviews.ts";
-import { useToast } from "../../context/ToastContext.tsx";
+import { ReviewType, UserType } from "../../../../../backend/shared/types.ts";
+import LoadingComponent from "../../components/Loading/Loading.tsx";
+import { postNewReview } from "../../../ApiClient/api-reviews.ts";
+import { useToast } from "../../../app/context/ToastContext.tsx";
 
 type Props = {
     hotelId: string;

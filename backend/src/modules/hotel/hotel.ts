@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { HotelType } from "@shared/types";
-import Review from "../review/review";
+import Review from "@modules/review/review";
 import Room from "@modules/room/room";
 
 const hotelSchema = new mongoose.Schema<HotelType>({

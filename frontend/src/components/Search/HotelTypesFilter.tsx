@@ -1,4 +1,4 @@
-import { hotelTypes } from "../../config/hotel-options-config.ts";
+import { hotelTypes } from "../../../app/config/hotel-options-config.ts";
 import React from "react";
 
 type Props = {

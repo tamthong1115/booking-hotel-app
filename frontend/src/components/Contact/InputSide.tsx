@@ -1,8 +1,8 @@
 import React, { ChangeEvent } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { postNewContactUs } from "../../ApiClient/api-client.ts";
-import { useToast } from "../../context/ToastContext.tsx";
+import { postNewContactUs } from "../../../ApiClient/api-client.ts";
+import { useToast } from "../../../app/context/ToastContext.tsx";
 
 const InputSideWrapper = styled.form`
     height: auto;

@@ -1,3 +1,15 @@
+export type Permission = {
+    _id: string;
+    name: string;
+};
+
+export type RoleType = {
+    _id: string;
+    name: string;
+    description: string;
+    permissions: Permission[];
+};
+
 export type UserType = {
     _id: string;
     googleId?: string;
@@ -11,19 +23,19 @@ export type UserType = {
     birthday?: Date;
     nationality?: string;
     emailVerified: boolean;
-    roles: string[];
+    roles: RoleType[];
 };
 
-export interface RoomType {
+export type RoomType = {
     _id: string;
     name: string;
     roomType: string;
     description: string;
     pricePerNight: number;
     isBooked: boolean;
-}
+};
 
-export interface HotelType {
+export type HotelType = {
     _id: string;
     userId: string;
     name: string;
@@ -45,9 +57,9 @@ export interface HotelType {
     bookings: BookingType[];
     reviews: string[];
     rooms?: RoomType[];
-}
+};
 
-export interface BookingType {
+export type BookingType = {
     _id: string;
     roomId: string;
     userId: string;
@@ -59,7 +71,7 @@ export interface BookingType {
     checkIn: Date;
     checkOut: Date;
     totalCost: number;
-}
+};
 
 export type HotelSearchResponse = {
     data: HotelType[];

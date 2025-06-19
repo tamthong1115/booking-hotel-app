@@ -1,6 +1,6 @@
 import { useFormContext } from "react-hook-form";
-import { RoomFormData } from "./RoomForm";
-import { roomTypes } from "../../config/hotel-options-config";
+import { RoomFormData } from "./RoomForm.tsx";
+import { roomTypes } from "../../../app/config/hotel-options-config.ts";
 
 const DetailsSection = () => {
     const {

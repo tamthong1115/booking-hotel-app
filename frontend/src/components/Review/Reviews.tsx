@@ -1,8 +1,8 @@
-import { ReviewType } from "../../../../backend/shared/types";
+import { ReviewType } from "../../../../../backend/shared/types.ts";
 import { useQuery } from "react-query";
-import LoadingComponent from "../Loading/Loading";
-import DeleteReviewButton from "../Button/DeleteReviewButton";
-import { getReviews } from "../../ApiClient/api-reviews.ts";
+import LoadingComponent from "../Loading/Loading.tsx";
+import DeleteReviewButton from "../Button/DeleteReviewButton.tsx";
+import { getReviews } from "../../../ApiClient/api-reviews.ts";
 
 type Props = {
     hotelId: string;

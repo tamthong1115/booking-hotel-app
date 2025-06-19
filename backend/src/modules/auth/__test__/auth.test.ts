@@ -3,7 +3,7 @@ import { postLogin, postRegister } from "../controller/auth.controller";
 import { Request, Response } from "express";
 import nodemailer from "nodemailer";
 import { randomUUID } from "node:crypto";
-import User from "../../user/user";
+import UserModel from "../../user/user";
 import connectToDatabase from "../../../utils/connectToDatabase";
 import mongoose from "mongoose";
 import { ObjectId } from "mongodb";
@@ -34,7 +34,7 @@ vi.mock("nodemailer", () => {
 let session: mongoose.mongo.ClientSession;
 beforeAll(async () => {
     await connectToDatabase();
-    initialUserState = await User.find({});
+    initialUserState = await UserModel.find({});
 });
 
 beforeEach(async () => {
@@ -49,8 +49,8 @@ afterEach(async () => {
 });
 
 afterAll(async () => {
-    await User.deleteMany({});
-    await User.insertMany(initialUserState);
+    await UserModel.deleteMany({});
+    await UserModel.insertMany(initialUserState);
     await mongoose.connection.close();
 });
 

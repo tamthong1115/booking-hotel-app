@@ -1,11 +1,11 @@
 import { FormProvider, useForm } from "react-hook-form";
-import DetailsSection from "./DetailsSection";
-import TypeSection from "./TypeSection";
-import FacilitiesSection from "./FacilitiesSection";
-import GuestsSection from "./GuestsSection";
-import ImagesSection from "./ImagesSection";
+import DetailsSection from "./DetailsSection.tsx";
+import TypeSection from "./TypeSection.tsx";
+import FacilitiesSection from "./FacilitiesSection.tsx";
+import GuestsSection from "./GuestsSection.tsx";
+import ImagesSection from "./ImagesSection.tsx";
 import { useEffect } from "react";
-import { HotelTypeFrontend } from "../../types/types";
+import { HotelTypeFrontend } from "../../../shared/types/types.ts";
 
 export type HotelFormData = {
     name: string;

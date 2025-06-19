@@ -1,4 +1,4 @@
-import { HotelTypeFrontend } from "../../types/types.ts";
+import { HotelTypeFrontend } from "../../../shared/types/types.ts";
 import React from "react";
 
 type Props = {

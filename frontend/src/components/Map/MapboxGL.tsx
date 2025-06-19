@@ -2,7 +2,7 @@ import React from "react";
 import react from "react-dom";
 import { useEffect, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
-import { HotelTypeFrontend } from "../../types/types.ts";
+import { HotelTypeFrontend } from "../../../shared/types/types.ts";
 
 type MapboxGLProps = {
     hotel: HotelTypeFrontend;

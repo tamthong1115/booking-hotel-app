@@ -1,6 +1,6 @@
 import passport from "passport";
 import { Strategy as GoogleStrategy, Profile, VerifyCallback } from "passport-google-oauth20";
-import User from "../modules/user/user";
+import UserModel from "@modules/user/user";
 import { Document } from "mongoose";
 
 passport.use(
@@ -12,10 +12,10 @@ passport.use(
         },
         async (accessToken, refreshToken, profile: Profile, done: VerifyCallback) => {
             try {
-                let user = await User.findOne({ googleId: profile.id });
+                let user = await UserModel.findOne({ googleId: profile.id });
 
                 if (!user) {
-                    const existingUser = await User.findOne({ email: profile.emails?.[0].value });
+                    const existingUser = await UserModel.findOne({ email: profile.emails?.[0].value });
                     if (existingUser) {
                         // Email already registered with another method
                         // Here we send failure (false) and include a message via 'info'
@@ -23,7 +23,7 @@ passport.use(
                             message: "Email already exists. Please sign in with your notification and password.",
                         });
                     }
-                    user = new User({
+                    user = new UserModel({
                         googleId: profile.id,
                         email: profile.emails?.[0].value,
                         firstName: profile.name?.givenName,
@@ -41,12 +41,12 @@ passport.use(
     ),
 );
 
-passport.serializeUser((user: typeof User.prototype & Document, done) => {
+passport.serializeUser((user: typeof UserModel.prototype & Document, done) => {
     done(null, user.id);
 });
 
 passport.deserializeUser(async (id, done) => {
-    const user = await User.findById(id);
+    const user = await UserModel.findById(id);
     done(null, user);
 });
 

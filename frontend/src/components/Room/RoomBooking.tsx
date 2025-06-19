@@ -1,13 +1,13 @@
 import React, { useEffect, useRef } from "react";
 import react from "react-dom";
-import { RoomType } from "../../../../backend/shared/types";
-import GuestInfoForm from "../../forms/GuestInfoForm/GuestInfoForm";
+import { RoomType } from "../../../../../backend/shared/types.ts";
+import GuestInfoForm from "../../forms/GuestInfoForm/GuestInfoForm.tsx";
 import { AiFillStar } from "react-icons/ai";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import classNames from "classnames/bind";
 import styles from "./Room.module.scss";
-import { HotelTypeFrontend } from "../../types/types.ts";
+import { HotelTypeFrontend } from "../../../shared/types/types.ts";
 
 const cx = classNames.bind(styles);
 

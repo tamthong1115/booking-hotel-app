@@ -1,13 +1,13 @@
 import { useForm } from "react-hook-form";
-import { PaymentIntentResponse, UserType } from "../../../../backend/shared/types";
+import { PaymentIntentResponse, UserType } from "../../../../../backend/shared/types.ts";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import { useSearchContext } from "../../context/SearchContext";
+import { useSearchContext } from "../../../app/context/SearchContext.tsx";
 import { useNavigate, useParams } from "react-router-dom";
 import { useMutation } from "react-query";
 
-import { createRoomBooking } from "../../ApiClient/api-bookings.ts";
+import { createRoomBooking } from "../../../ApiClient/api-bookings.ts";
 import { StripeCardElement } from "@stripe/stripe-js";
-import { useToast } from "../../context/ToastContext.tsx";
+import { useToast } from "../../../app/context/ToastContext.tsx";
 
 type Props = {
     currentUser: UserType;

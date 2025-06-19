@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
 import Hotel from "../../modules/hotel/hotel";
-import User from "../../modules/user/user";
+import UserModel from "@modules/user/user";
 import connectToDatabase from "../../utils/connectToDatabase";
 import mongoose from "mongoose";
 import { createTestUser, deleteTestUser, userTemplates } from "./testUserData";
@@ -36,7 +36,7 @@ afterAll(async () => {
 
 describe("Hotel Controller", () => {
     it("should create and save a hotel", async () => {
-        const user = await User.findOne({ email: userTemplates.admin.email });
+        const user = await UserModel.findOne({ email: userTemplates.admin.email });
         if (!user) {
             throw new Error("Test user not found");
         }

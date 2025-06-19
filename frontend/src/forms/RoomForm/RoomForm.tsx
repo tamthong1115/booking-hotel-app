@@ -1,8 +1,8 @@
 import { useForm, FormProvider } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
-import DetailsSection from "./DetailsSection";
-import { RoomType } from "../../../../backend/shared/types";
+import DetailsSection from "./DetailsSection.tsx";
+import { RoomType } from "../../../../../backend/shared/types.ts";
 
 export type RoomFormData = {
     hotelId: string;

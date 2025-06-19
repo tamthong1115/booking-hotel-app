@@ -1,5 +1,5 @@
 import { useFormContext } from "react-hook-form";
-import { HotelFormData } from "./MangaHotelForm";
+import { HotelFormData } from "./MangaHotelForm.tsx";
 
 const ImagesSection = () => {
     const {
