@@ -1,7 +1,9 @@
-import { User } from "./user";
+import { Role } from "@modules/user/role";
+import { User } from "@modules/user/user";
 import { UserDTO } from "@modules/user/user.dto";
 
-export function toUserDTO(user: User): UserDTO {
+
+export function toUserDTOWithRoleNames(user: User & { roles: (string | Role)[] }): UserDTO {
     return {
         id: user._id.toString(),
         googleId: user.googleId,
@@ -14,6 +16,8 @@ export function toUserDTO(user: User): UserDTO {
         birthday: user.birthday,
         nationality: user.nationality,
         emailVerified: user.emailVerified,
-        roles: user.roles.map((role) => role.name),
+        roles: user.roles.map((role: string | Role ) =>
+            typeof role === "string" ? role : role.name
+        ),
     };
 }

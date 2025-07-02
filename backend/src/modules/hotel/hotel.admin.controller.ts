@@ -1,11 +1,12 @@
 import { RequestHandler } from "express";
 import cloudinary from "cloudinary";
-import ExpressError from "@utils/ExpressError";
 import Hotel from "./hotel";
 import { HotelType } from "@shared/types";
 import mbxGeocoding from "@mapbox/mapbox-sdk/services/geocoding";
 import { uploadImages } from "@utils/upload-images";
 import "dotenv/config";
+import CustomError from "@utils/ExpressError";
+import { ERROR_CODES } from "@shared/constants/errorCodes";
 
 const geocodingClient = mbxGeocoding({
     accessToken: process.env.MAPBOX_SECRET_TOKEN as string,
@@ -48,7 +49,11 @@ export const postNewHotel: RequestHandler = async (req, res, next) => {
                  userId has validated by token before add it to req
                 */
         if (!req.userId) {
-            throw new ExpressError("User ID is missing", 400);
+            throw new CustomError(
+                ERROR_CODES.UNAUTHORIZED_ACCESS.message,
+                ERROR_CODES.UNAUTHORIZED_ACCESS.code,
+                ERROR_CODES.UNAUTHORIZED_ACCESS.statusCode,
+            )
         }
 
         newHotel.userId = req.userId;
@@ -58,8 +63,7 @@ export const postNewHotel: RequestHandler = async (req, res, next) => {
 
         res.status(201).send(hotel);
     } catch (e) {
-        console.log(e);
-        next(new ExpressError(`Error creating hotel: ${e}`, 400));
+       next(new CustomError(`Error creating hotel: ${e}`));
     }
 };
 
@@ -68,12 +72,11 @@ export const getHotels: RequestHandler = async (req, res, next) => {
         const hotels = await Hotel.find().sort({ lastUpdated: -1 });
         res.json(hotels);
     } catch (error) {
-        console.log(error);
-        next(new ExpressError(`Error creating hotel: ${error}`, 500));
+        next(new CustomError(`Error fetching hotels: ${error}`));
     }
 };
 
-export const getOneHotel: RequestHandler = async (req, res) => {
+export const getOneHotel: RequestHandler = async (req, res,next) => {
     const hotelId = req.params.hotelId.toString();
     try {
         const hotel = await Hotel.findOne({
@@ -81,7 +84,7 @@ export const getOneHotel: RequestHandler = async (req, res) => {
         });
         res.json(hotel);
     } catch (error) {
-        res.status(500).json({ message: "Error fetching hotels" + error });
+        next(new CustomError(`Error fetching hotel with ID ${hotelId}: ${error}`));
     }
 };
 
@@ -169,7 +172,8 @@ export const editHotel: RequestHandler = async (req, res, next) => {
         await hotel.save();
         res.status(201).json(hotel);
     } catch (error) {
-        next(new ExpressError(`Error updating hotel: ${error}`, 500));
+        console.error("Error updating hotel:", error);
+        next(new CustomError(`Error updating hotel: ${error}`));
     }
 };
 

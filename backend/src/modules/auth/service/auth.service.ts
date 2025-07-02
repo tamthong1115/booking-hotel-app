@@ -2,100 +2,153 @@ import UserModel from "@modules/user/user";
 import bcrypt from "bcryptjs";
 import nodemailer from "nodemailer";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import { RegisterPayload } from "../types/auth.types";
 
-const WEB_URL = process.env.WEB_URL || "http://localhost:5173";
+import { RegisterInputDTO, LoginInputDTO, ResetPasswordInputDTO } from "@modules/auth/dto/auth.dto";
 
-export async function registerUser(userData: RegisterPayload) {
-    let user = await UserModel.findOne({ email: userData.email });
-    if (user) throw new Error("User already exists");
+import CustomError from "@utils/ExpressError";
+import { ERROR_CODES } from "@shared/constants/errorCodes";
 
-    user = new UserModel(userData);
+const webUrl = process.env.WEB_URL || "http://localhost:5173";
+const email = process.env.BOOKING_EMAIL!;
+const emailPass = process.env.BOOKING_EMAIL_PASSWORD!;
+const jwtSecret = process.env.JWT_SECRET_KEY!;
 
-    const transporter = nodemailer.createTransport({
+function getTransporter() {
+    return nodemailer.createTransport({
         service: "gmail",
         host: "smtp.gmail.com",
         port: 465,
         secure: true,
         auth: {
-            user: process.env.BOOKING_EMAIL,
-            pass: process.env.BOOKING_EMAIL_PASSWORD,
+            user: email,
+            pass: emailPass,
         },
     });
-
-    const emailToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY || "", { expiresIn: "1d" });
-    const url = `${WEB_URL}/verify-email/${emailToken}`;
-    const mailOptions = {
-        from: process.env.BOOKING_EMAIL,
-        to: user.email,
-        subject: "Verify your notification",
-        text: `Please click on this link to verify your email: ${url}`,
-    };
-
-    await transporter.sendMail(mailOptions);
-    await user.save();
 }
 
-export async function verifyEmail(token: string) {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY || "");
-    const user = await UserModel.findById((decoded as JwtPayload).userId);
-    if (!user) throw new Error("User not found");
+export async function register(userData: RegisterInputDTO): Promise<string> {
+    const existingUser = await UserModel.findOne({ email: userData.email });
+    if (existingUser) {
+        throw new CustomError(
+            ERROR_CODES.EMAIL_ALREADY_EXISTS.message,
+            ERROR_CODES.EMAIL_ALREADY_EXISTS.code,
+            ERROR_CODES.EMAIL_ALREADY_EXISTS.statusCode,
+        );
+    }
+
+    const user = new UserModel(userData);
+    const emailToken = jwt.sign({ userId: user._id }, jwtSecret, {
+        expiresIn: "1d",
+    });
+
+    const url = `${webUrl}/verify-email/${emailToken}`;
+    const transporter = getTransporter();
+
+    await transporter.sendMail({
+        from: email,
+        to: user.email,
+        subject: "Verify your email",
+        text: `Please verify your email by clicking: ${url}`,
+    });
+
+    await user.save();
+    return user._id.toString();
+}
+
+export async function verifyEmail(token: string): Promise<void> {
+    const decoded = jwt.verify(token, jwtSecret) as JwtPayload;
+    const user = await UserModel.findById(decoded.userId);
+    if (!user) {
+        throw new CustomError(
+            ERROR_CODES.INVALID_TOKEN.message,
+            ERROR_CODES.INVALID_TOKEN.code,
+            ERROR_CODES.INVALID_TOKEN.statusCode,
+        );
+    }
     user.emailVerified = true;
     await user.save();
 }
 
-export async function loginUser(email: string, password: string) {
-    const user = await UserModel.findOne({ email });
-    if (!user) throw new Error("Email or password is incorrect");
-    if (!user.emailVerified) throw new Error("Email not verified");
+export async function login(data: LoginInputDTO) {
+    const user = await UserModel.findOne({ email: data.email });
+    if (!user || !user.password) {
+        throw new CustomError(
+            ERROR_CODES.USER_NOT_FOUND.message,
+            ERROR_CODES.USER_NOT_FOUND.code,
+            ERROR_CODES.USER_NOT_FOUND.statusCode,
+        );
+    }
 
-    if (!user.password) throw new Error("Email or password is incorrect");
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) throw new Error("Email or password is incorrect");
+    if (!user.emailVerified) {
+        throw new CustomError(
+            ERROR_CODES.USER_NOT_VERIFIED.message,
+            ERROR_CODES.USER_NOT_VERIFIED.code,
+            ERROR_CODES.USER_NOT_VERIFIED.statusCode,
+        );
+    }
+
+    const isMatch = await bcrypt.compare(data.password, user.password);
+    if (!isMatch) {
+        throw new CustomError(
+            ERROR_CODES.INVALID_CREDENTIALS.message,
+            ERROR_CODES.INVALID_CREDENTIALS.code,
+            ERROR_CODES.INVALID_CREDENTIALS.statusCode,
+        );
+    }
 
     return user;
 }
 
-export async function sendResetPasswordEmail(email: string) {
-    const user = await UserModel.findOne({ email });
-    if (!user) throw new Error("User not found");
+export async function sendResetPasswordEmail(emailAddr: string): Promise<void> {
+    const user = await UserModel.findOne({ email: emailAddr });
+    if (!user) {
+        throw new CustomError(
+            ERROR_CODES.USER_NOT_FOUND.message,
+            ERROR_CODES.USER_NOT_FOUND.code,
+            ERROR_CODES.USER_NOT_FOUND.statusCode,
+        );
+    }
 
-    const transporter = nodemailer.createTransport({
-        service: "gmail",
-        host: "smtp.gmail.com",
-        port: 465,
-        secure: true,
-        auth: {
-            user: process.env.BOOKING_EMAIL,
-            pass: process.env.BOOKING_EMAIL_PASSWORD,
-        },
+    const emailToken = jwt.sign({ userId: user._id }, jwtSecret, {
+        expiresIn: "1d",
     });
 
-    const emailToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY || "", { expiresIn: "1d" });
-    const url = `${WEB_URL}/reset-password/${emailToken}`;
-    const mailOptions = {
-        from: process.env.BOOKING_EMAIL,
+    const url = `${webUrl}/reset-password/${emailToken}`;
+    const transporter = getTransporter();
+
+    await transporter.sendMail({
+        from: email,
         to: user.email,
         subject: "Reset your password",
-        text: `Please click on this link to reset your password: ${url}`,
-    };
-
-    await transporter.sendMail(mailOptions);
+        text: `Reset link: ${url}`,
+    });
 }
 
-export async function resetPassword(token: string, password: string, confirmPassword: string) {
-    if (password !== confirmPassword) throw new Error("Passwords do not match");
+export async function resetPassword(data: ResetPasswordInputDTO): Promise<void> {
+    if (data.password !== data.confirmPassword) {
+        throw new CustomError(
+            ERROR_CODES.PASSWORD_RESET_FAILED.message,
+            ERROR_CODES.PASSWORD_RESET_FAILED.code,
+            ERROR_CODES.PASSWORD_RESET_FAILED.statusCode,
+        );
+    }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY || "");
-    const user = await UserModel.findById((decoded as JwtPayload).userId);
-    if (!user) throw new Error("User not found");
+    const decoded = jwt.verify(data.token, jwtSecret) as JwtPayload;
+    const user = await UserModel.findById(decoded.userId);
+    if (!user) {
+        throw new CustomError(
+            ERROR_CODES.USER_NOT_FOUND.message,
+            ERROR_CODES.USER_NOT_FOUND.code,
+            ERROR_CODES.USER_NOT_FOUND.statusCode,
+        );
+    }
 
-    user.password = password;
+    user.password = data.password;
     await user.save();
 }
 
-export async function getUserRoles(userId: string) {
-    const user = await UserModel.findById(userId);
+export async function getRoles(userId: string) {
+    const user = await UserModel.findById(userId).populate("roles");
     if (!user) throw new Error("User not found");
-    return user.roles;
+    return user.roles.map((role: any) => role.name);
 }

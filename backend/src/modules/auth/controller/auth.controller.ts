@@ -1,58 +1,69 @@
 import { NextFunction, Request, Response } from "express";
-import * as authService from "../service/auth.service";
 import generateToken from "@utils/generateToken";
 import { UserType } from "@shared/types";
 import passport from "passport";
+import * as authService from "../service/auth.service";
+import { RegisterInputDTO } from "../dto/auth.dto";
+import { sendError, sendSuccess } from "@utils/response";
+import { ERROR_CODES } from "@shared/constants/errorCodes";
+import CustomError from "@utils/ExpressError";
 
 function getErrorMessage(error: unknown): string {
     if (error instanceof Error) return error.message;
     return String(error);
 }
 
-export const postRegister = async (req: Request, res: Response) => {
+export const postRegister = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        await authService.registerUser(req.body);
-        res.status(200).send({ message: "User registered OK" });
+        const dto: RegisterInputDTO = req.body;
+        await authService.register(dto);
+        return sendSuccess(res, "User registered OK", 201);
     } catch (error) {
-        res.status(400).send({ message: getErrorMessage(error) || "Something went wrong" });
+        next(
+            new CustomError(
+                getErrorMessage(error),
+                ERROR_CODES.REGISTER_FAILED.code,
+                ERROR_CODES.REGISTER_FAILED.statusCode,
+            ),
+        );
     }
 };
 
-export const getVerifyEmail = async (req: Request, res: Response) => {
+export const getVerifyEmail = async (req: Request, res: Response, next: NextFunction) => {
     try {
         await authService.verifyEmail(req.params.token);
         res.status(200).json({ message: "Email verified Success" });
     } catch (error) {
-        res.status(400).json({ message: getErrorMessage(error) || "Something went wrong" });
+        next(error);
     }
 };
 
-export const postLogin = async (req: Request, res: Response) => {
+export const postLogin = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const user = await authService.loginUser(req.body.email, req.body.password);
-        generateToken(res, user.id);
-        res.status(200).json({ userId: user._id });
+        const user = await authService.login({ email: req.body.email, password: req.body.password });
+        await generateToken(res, user.id);
+        return sendSuccess(res, "Login OK", 200, { userId: user.id, email: user.email });
     } catch (error) {
-        res.status(400).json({ message: getErrorMessage(error) || "Something went wrong" });
+        next(error);
     }
 };
 
-export const postForgetPassword = async (req: Request, res: Response) => {
+export const postForgetPassword = async (req: Request, res: Response, next: NextFunction) => {
     try {
         await authService.sendResetPasswordEmail(req.body.email);
         res.status(200).json({ message: "Check your notification to reset password" });
     } catch (error) {
-        res.status(400).json({ message: getErrorMessage(error) || "Something went wrong" });
+        next(error);
     }
 };
 
-export const postResetPassword = async (req: Request, res: Response) => {
+export const postResetPassword = async (req: Request, res: Response, next: NextFunction) => {
     const { token, password, confirmPassword } = req.body;
     try {
-        await authService.resetPassword(token, password, confirmPassword);
+        await authService.resetPassword({ token, password, confirmPassword });
         res.status(200).json({ message: "Password reset OK" });
     } catch (error) {
-        res.status(400).json({ message: getErrorMessage(error) || "Something went wrong" });
+        next(error);
     }
 };
 
@@ -85,24 +96,36 @@ export const googleCallback = (req: Request, res: Response, next: NextFunction) 
     )(req, res, next);
 };
 
-export const getValidateToken = (req: Request, res: Response) => {
-    res.status(200).send({ userId: req.userId });
-};
-
-export const getRoles = async (req: Request, res: Response) => {
+export const getValidateToken = (req: Request, res: Response, next: NextFunction) => {
     try {
-        const roles = await authService.getUserRoles(req.userId as string);
-        res.json(roles);
+        if (!req.userId) {
+            return sendError(
+                res,
+                "Unauthorized",
+                ERROR_CODES.UNAUTHORIZED_ACCESS.message,
+                ERROR_CODES.UNAUTHORIZED_ACCESS.statusCode,
+            );
+        }
+        res.status(200).send({ userId: req.userId });
     } catch (error) {
-        res.status(404).json({ message: getErrorMessage(error) || "User not found" });
+        next(error);
     }
 };
 
-export const postLogout = (req: Request, res: Response) => {
+export const getRoles = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const roles = await authService.getRoles(req.userId as string);
+        res.json(roles);
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const postLogout = (req: Request, res: Response, next: NextFunction) => {
     try {
         res.cookie("auth_token", "", { expires: new Date(0) });
         res.status(200).json({ message: "Logout OK" });
     } catch (error) {
-        res.status(500).json({ message: getErrorMessage(error) || "Something went wrong" });
+        next(error);
     }
 };

@@ -11,7 +11,9 @@ import jwt from "jsonwebtoken";
  *
  * @throws {Error} - Throws an error if the JWT generation fails.
  */
-const generateToken = (res: Response, userId: string): string => {
+const generateToken = async (res: Response, userId: string): Promise<string> => {
+    console.log("generateToken called with:", userId); // 👈 add this
+
     const token = jwt.sign({ userId: userId }, process.env.JWT_SECRET_KEY as string, {
         expiresIn: "1d",
     });

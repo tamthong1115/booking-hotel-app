@@ -3,6 +3,7 @@ import Review from "./review";
 import Hotel from "@modules/hotel/hotel";
 import CustomError from "@utils/ExpressError";
 import { BookingType } from "@shared/types";
+import { ERROR_CODES } from "@shared/constants/errorCodes";
 
 export const postNewReview: RequestHandler = async (req, res, next) => {
     try {
@@ -10,7 +11,11 @@ export const postNewReview: RequestHandler = async (req, res, next) => {
 
         const hotel = await Hotel.findById(hotelId).populate<{ bookings: BookingType[] }>("bookings");
         if (!hotel) {
-            return next(new CustomError("Hotel not found", 404));
+            throw new CustomError(
+                ERROR_CODES.HOTEL_NOT_FOUND.message,
+                ERROR_CODES.HOTEL_NOT_FOUND.code,
+                ERROR_CODES.HOTEL_NOT_FOUND.statusCode,
+            )
         }
 
         // check if user having booked the hotel
@@ -19,7 +24,11 @@ export const postNewReview: RequestHandler = async (req, res, next) => {
         });
 
         if (!isBooked) {
-            return res.status(403).json({ message: "You must book the hotel to post a review" });
+            throw new CustomError(
+                ERROR_CODES.BOOKED_HOTEL_BEFORE_REVIEW.message,
+                ERROR_CODES.BOOKED_HOTEL_BEFORE_REVIEW.code,
+                ERROR_CODES.BOOKED_HOTEL_BEFORE_REVIEW.statusCode,
+            );
         }
 
         const { comment, rating, userName } = req.body;
@@ -39,7 +48,7 @@ export const postNewReview: RequestHandler = async (req, res, next) => {
         res.status(201).json(newReview);
     } catch (err) {
         console.log(err);
-        next(new CustomError("Failed to post review", 500));
+        next(new CustomError("Failed to post review"));
     }
 };
 
@@ -50,13 +59,17 @@ export const getReviews: RequestHandler = async (req, res, next) => {
         const hotel = await Hotel.findById(hotelId).populate("reviews");
 
         if (!hotel) {
-            return next(new CustomError("Hotel not found", 404));
+            throw new CustomError(
+                ERROR_CODES.HOTEL_NOT_FOUND.message,
+                ERROR_CODES.HOTEL_NOT_FOUND.code,
+                ERROR_CODES.HOTEL_NOT_FOUND.statusCode,
+            );
         }
 
         res.json(hotel.reviews);
     } catch (err) {
         console.log(err);
-        next(new CustomError("Failed to get reviews", 500));
+        next(new CustomError("Failed to get reviews"));
     }
 };
 
@@ -69,16 +82,25 @@ export const deleteReview: RequestHandler = async (req, res, next) => {
         });
 
         if (!hotel) {
-            return next(new CustomError("Hotel not found", 404));
+            throw new CustomError(
+                ERROR_CODES.HOTEL_NOT_FOUND.message,
+                ERROR_CODES.HOTEL_NOT_FOUND.code,
+                ERROR_CODES.HOTEL_NOT_FOUND.statusCode,
+            );
         }
 
         const review = await Review.findByIdAndDelete(reviewId);
         if (!review) {
-            return next(new CustomError("Review not found", 404));
+            throw new CustomError(
+                ERROR_CODES.REVIEW_NOT_FOUND.message,
+                ERROR_CODES.REVIEW_NOT_FOUND.code,
+                ERROR_CODES.REVIEW_NOT_FOUND.statusCode,
+            );
         }
 
         res.json({ message: "Review deleted" });
     } catch (err) {
-        next(new CustomError("Failed to delete review", 500));
+        next(new CustomError("Failed to delete review"));
     }
 };
+

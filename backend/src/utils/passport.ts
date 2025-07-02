@@ -2,6 +2,7 @@ import passport from "passport";
 import { Strategy as GoogleStrategy, Profile, VerifyCallback } from "passport-google-oauth20";
 import UserModel from "@modules/user/user";
 import { Document } from "mongoose";
+import {RoleModel} from "@modules/user/role";
 
 passport.use(
     new GoogleStrategy(
@@ -23,12 +24,16 @@ passport.use(
                             message: "Email already exists. Please sign in with your notification and password.",
                         });
                     }
+                    const userRole = await RoleModel.findOne({ name: "User" });
+                    if( !userRole ) {
+                        return done(new Error("User role not found"), undefined);
+                    }
                     user = new UserModel({
                         googleId: profile.id,
                         email: profile.emails?.[0].value,
                         firstName: profile.name?.givenName,
                         lastName: profile.name?.familyName,
-                        roles: ["user"],
+                        roles: [userRole._id],
                     });
                     await user.save();
                 }

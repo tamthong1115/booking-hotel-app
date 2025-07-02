@@ -7,12 +7,12 @@
     "dev": "ts-node -r module-alias/register ./index.ts",
     "build": "pnpm install && npx tsc",
     "start": "node ./dist/index.js",
-    "test": "cross-env NODE_ENV=test vitest",
+    "test": "cross-env NODE_ENV=test DOTENV_CONFIG_PATH=.env.e2e vitest",
     "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
     "debug": "nodemon --exec \"node --inspect-brk=127.0.0.1:9229 --require ts-node/register index.ts\"",
     "e2e": "cross-env NODE_ENV=test DOTENV_CONFIG_PATH=.env.e2e nodemon",
-    "seed": "ts-node src/seeds/user.ts"
-  },
+    "seed": "ts-node src/seeds/user.ts",
+    "seed-e2e": "cross-env NODE_ENV=test DOTENV_CONFIG_PATH=.env.e2e ts-node src/seeds/user.ts"  },
   "author": "",
   "license": "ISC",
   "_moduleAliases": {
@@ -21,7 +21,7 @@
     "@utils": "src/utils",
     "@config": "src/config",
     "@types": "src/types",
-    "@shared": "src/shared"
+    "@shared": "shared"
   },
   "dependencies": {
     "@mapbox/mapbox-sdk": "^0.16.0",

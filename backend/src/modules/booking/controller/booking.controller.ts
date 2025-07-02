@@ -2,6 +2,7 @@ import { RequestHandler } from "express";
 import CustomError from "@utils/ExpressError";
 import Hotel from "@modules/hotel/hotel";
 import { BookingType } from "@shared/types";
+import { ERROR_CODES } from "@shared/constants/errorCodes";
 
 export const getBookings: RequestHandler = async (req, res, next) => {
     try {
@@ -34,6 +35,6 @@ export const getBookings: RequestHandler = async (req, res, next) => {
         res.status(200).json(filteredResult);
     } catch (err) {
         console.log(err);
-        next(new CustomError("Failed to get bookings", 500));
+        next(new CustomError("Failed to get bookings", ERROR_CODES.BOOKING_FAILED.code, ERROR_CODES.BOOKING_FAILED.statusCode));
     }
 };

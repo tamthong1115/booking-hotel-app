@@ -122,7 +122,7 @@ export const getHotels: RequestHandler = async (req, res, next) => {
         res.json(hotels);
     } catch (error) {
         console.log(error);
-        next(new CustomError("Failed to get hotels", 500));
+        next(new CustomError("Failed to get hotels"));
     }
 };
 
@@ -134,7 +134,7 @@ export const postCreatePaymentIntent: RequestHandler = async (req, res) => {
     // console.log(room);
 
     if (!room) {
-        throw new CustomError("Room not found", 404);
+        throw new CustomError("Room not found");
     }
 
     const totalCost = room.pricePerNight * parseInt(numberOfNights);
@@ -155,7 +155,7 @@ export const postCreatePaymentIntent: RequestHandler = async (req, res) => {
 
     // client_secret is a secret key that is used to authenticate the client
     if (!paymentIntent.client_secret) {
-        throw new CustomError("Error creating payment intent", 500);
+        throw new CustomError("Error creating payment intent");
     }
 
     const response = {

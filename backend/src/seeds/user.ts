@@ -78,12 +78,12 @@ async function seedRoles(permissions: Awaited<Promise<Permission[]>>): Promise<R
 
     const roles = [
         {
-            name: "Super Admin",
+            name: "super-admin",
             description: "Full access to everything",
             permissions: get(...permissionsList),
         },
         {
-            name: "Hotel Owner",
+            name: "hotel-owner",
             description: "Owns/manages hotels",
             permissions: get(
                 "dashboard:access",
@@ -98,7 +98,7 @@ async function seedRoles(permissions: Awaited<Promise<Permission[]>>): Promise<R
             ),
         },
         {
-            name: "Hotel Manager",
+            name: "hotel-manager",
             description: "Manages operations",
             permissions: get(
                 "dashboard:access",
@@ -112,12 +112,12 @@ async function seedRoles(permissions: Awaited<Promise<Permission[]>>): Promise<R
             ),
         },
         {
-            name: "Receptionist",
+            name: "receptionist",
             description: "Front desk operations",
             permissions: get("booking:view", "booking:checkin", "booking:checkout"),
         },
         {
-            name: "User",
+            name: "user",
             description: "Regular user who books and reviews hotels",
             permissions: get(
                 "booking:create",
