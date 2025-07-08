@@ -2,9 +2,9 @@ import { Link } from "react-router-dom";
 import { useQuery } from "react-query";
 import { BsBuilding, BsMap } from "react-icons/bs";
 import { BiHotel, BiStar } from "react-icons/bi";
-import DeleteHotelButton from "../../components/Button/DeleteHotelButton.tsx";
-import LoadingComponent from "../../components/Loading/Loading.tsx";
-import { fetchMyHotels } from "../../../ApiClient/api-hotels.ts";
+import DeleteHotelButton from "../../../components/Button/DeleteHotelButton.tsx";
+import LoadingComponent from "../../../components/Loading/Loading.tsx";
+import { fetchMyHotels } from "../../../services/api/api-hotels.ts";
 import { useToast } from "../../../app/context/ToastContext.tsx";
 
 const MyHotels = () => {

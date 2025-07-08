@@ -1,13 +1,13 @@
 import { useQuery } from "react-query";
-import LatestDestinationCard from "../../components/LastestDestinationCard/LastestDestinationCard.tsx";
+import LatestDestinationCard from "../../../components/LastestDestinationCard/LastestDestinationCard.tsx";
 import classNames from "classnames/bind";
 import styles from "./index.module.scss";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-import LatestDestinationCardPre from "../../components/LastestDestinationCard/LatestDestinationCardPre.tsx";
-import { fetchHotels } from "../../../ApiClient/api-hotels.ts";
+import LatestDestinationCardPre from "../../../components/LastestDestinationCard/LatestDestinationCardPre.tsx";
+import { fetchHotels } from "../../../services/api/api-hotels.ts";
 
 const cx = classNames.bind(styles);
 

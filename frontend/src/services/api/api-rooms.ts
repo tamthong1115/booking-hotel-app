@@ -1,5 +1,5 @@
-import { RoomType } from "../../../backend/shared/types.ts";
-import { RoomFormData } from "../main-booking/forms/RoomForm/RoomForm.tsx";
+import { RoomType } from "@shared/types/types.ts";
+import { RoomFormData } from "../../forms/RoomForm/RoomForm.tsx";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
 export const getRooms = async (hotelId: string): Promise<RoomType[]> => {

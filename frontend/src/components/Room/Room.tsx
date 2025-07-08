@@ -1,14 +1,14 @@
-import { RoomType } from "../../../../../backend/shared/types.ts";
+import { RoomType } from "@shared/types/types.ts";
 import { useQuery } from "react-query";
 import LoadingComponent from "../Loading/Loading.tsx";
 import RoomBooking from "./RoomBooking.tsx";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { HotelTypeFrontend } from "../../../shared/types/types.ts";
-import { getRooms } from "../../../ApiClient/api-rooms.ts";
+import { HotelType } from "@shared/types/types.ts";
+import { getRooms } from "../../services/api/api-rooms.ts";
 
 type Props = {
-    hotel: HotelTypeFrontend;
+    hotel: HotelType;
 };
 
 const Room = ({ hotel }: Props) => {

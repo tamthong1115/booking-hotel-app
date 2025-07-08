@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import { HotelTypeFrontend } from "../../../shared/types/types.ts";
+import { HotelType } from "@shared/types/types.ts";
 
 type Props = {
-    hotel: HotelTypeFrontend;
+    hotel: HotelType;
 };
 
 const LatestDestinationCardPre = ({ hotel }: Props) => {

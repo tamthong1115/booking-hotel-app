@@ -1,8 +1,8 @@
 import React from "react";
 import { useMutation, useQueryClient } from "react-query";
 import LoadingComponent from "../Loading/Loading.tsx";
-import { deleteReview } from "../../../ApiClient/api-reviews.ts";
-import { useToast } from "../../../app/context/ToastContext.tsx";
+import { deleteReview } from "../../services/api/api-reviews.ts";
+import { useToast } from "../../app/context/ToastContext.tsx";
 
 type Props = {
     hotelId: string;

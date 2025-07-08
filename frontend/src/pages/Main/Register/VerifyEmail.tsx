@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { verifyEmail } from "../../../ApiClient/api-client.ts";
+import { verifyEmail } from "../../../services/api/api-client.ts";
 import { useQuery } from "react-query";
-import LoadingComponent from "../../components/Loading/Loading.tsx";
+import LoadingComponent from "../../../components/Loading/Loading.tsx";
 
 const VerifyEmail = () => {
     const { token } = useParams<{ token: string }>();

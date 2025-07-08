@@ -2,10 +2,10 @@ import React from "react";
 import react from "react-dom";
 import { useEffect, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
-import { HotelTypeFrontend } from "../../../shared/types/types.ts";
+import { HotelType } from "@shared/types/types.ts";
 
 type MapboxGLProps = {
-    hotel: HotelTypeFrontend;
+    hotel: HotelType;
     isMapOpen: boolean;
     onClose: () => void;
 };

@@ -1,10 +1,10 @@
 import { useMutation, useQueryClient } from "react-query";
-import { signOut } from "../../../ApiClient/api-users.ts";
-import { useToast } from "../../../app/context/ToastContext.tsx";
+import { signOut } from "../../services/api/api-users.ts";
+import { useToast } from "../../app/context/ToastContext.tsx";
 // import MenuUser from "../MenuUser/MenuUser.tsx";
 // import classNames from "classnames/bind";
 // import styles from "./index.module.scss";
-// import { MENU_ITEMS } from "../../config/types.tsx";
+// import { MENU_ITEMS } from "../../config/type.tsx";
 
 // const cx = classNames.bind(styles);
 

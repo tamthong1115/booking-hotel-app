@@ -1,14 +1,10 @@
-import Footer from "../components/Footer/Footer.tsx";
-import Header from "../components/Header/Header.tsx";
-import Hero from "../components/Hero/Hero.tsx";
-import SearchBar from "../components/Search/SearchBar.tsx";
-import React from "react";
+import { Outlet } from "react-router-dom";
+import Footer from "../components/Footer/Footer";
+import Header from "../components/Header/Header";
+import Hero from "../components/Hero/Hero";
+import SearchBar from "../components/Search/SearchBar";
 
-interface Props {
-    children: React.ReactNode;
-}
-
-const Layout = ({ children }: Props) => {
+const Layout = () => {
     return (
         <div className="flex min-h-screen flex-col">
             <div className="bg-indigo-400 pb-12">
@@ -20,7 +16,9 @@ const Layout = ({ children }: Props) => {
             <div className="container mx-auto">
                 <SearchBar />
             </div>
-            <div className="container mx-auto flex-1 py-10">{children}</div>
+            <div className="container mx-auto flex-1 py-10">
+                <Outlet />
+            </div>
             <Footer />
         </div>
     );

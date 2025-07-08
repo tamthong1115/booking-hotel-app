@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { sendPasswordMail } from "../../../ApiClient/api-client.ts";
+import { sendPasswordMail } from "../../../services/api/api-client.ts";
 import { useToast } from "../../../app/context/ToastContext.tsx";
 
 type ForgetPasswordFormData = {

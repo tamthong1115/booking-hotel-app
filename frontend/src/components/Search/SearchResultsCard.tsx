@@ -1,9 +1,9 @@
 import { AiFillStar } from "react-icons/ai";
 import { Link } from "react-router-dom";
-import { HotelTypeFrontend, RoomType } from "../../../shared/types/types.ts";
+import { HotelType, RoomType } from "@shared/types/types.ts";
 
 type Props = {
-    hotel: HotelTypeFrontend;
+    hotel: HotelType;
 };
 
 const minPrice = (rooms: RoomType[]) => {

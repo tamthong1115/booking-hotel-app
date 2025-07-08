@@ -1,14 +1,14 @@
 import { useSearchContext } from "../../../app/context/SearchContext.tsx";
 import { useQuery } from "react-query";
 import React, { useEffect, useState } from "react";
-import SearchResultsCard from "../../components/Search/SearchResultsCard.tsx";
-import Pagination from "../../components/Pagination/Pagination.tsx";
-import StarRatingFilter from "../../components/Search/StarRatingFilter.tsx";
-import HotelTypesFilter from "../../components/Search/HotelTypesFilter.tsx";
-import FacilitiesFilter from "../../components/Search/FacilitiesFilter.tsx";
-import PriceFilter from "../../components/Search/PriceFilter.tsx";
-import LoadingComponent from "../../components/Loading/Loading.tsx";
-import { searchHotels } from "../../../ApiClient/api-hotels.ts";
+import SearchResultsCard from "../../../components/Search/SearchResultsCard.tsx";
+import Pagination from "../../../components/Pagination/Pagination.tsx";
+import StarRatingFilter from "../../../components/Search/StarRatingFilter.tsx";
+import HotelTypesFilter from "../../../components/Search/HotelTypesFilter.tsx";
+import FacilitiesFilter from "../../../components/Search/FacilitiesFilter.tsx";
+import PriceFilter from "../../../components/Search/PriceFilter.tsx";
+import LoadingComponent from "../../../components/Loading/Loading.tsx";
+import { searchHotels } from "../../../services/api/api-hotels.ts";
 
 const Search = () => {
     const search = useSearchContext();

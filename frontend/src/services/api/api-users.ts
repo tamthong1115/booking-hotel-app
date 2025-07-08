@@ -1,6 +1,4 @@
-import { UserType } from "../../../backend/shared/types.ts";
-import { RegisterFormData } from "../main-booking/pages/Register/Register.tsx";
-import { SignInFormData } from "../main-booking/pages/SignIn/SignIn.tsx";
+import { RegisterInputDTO, LoginInputDTO, UserType } from "@shared/types/types.ts";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
 
@@ -29,7 +27,7 @@ export const updateUser = async (formData: UserType) => {
 
     return response.json();
 };
-export const register = async (formData: RegisterFormData) => {
+export const register = async (formData: RegisterInputDTO) => {
     const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
         method: "POST",
         credentials: "include",
@@ -44,7 +42,7 @@ export const register = async (formData: RegisterFormData) => {
         throw new Error(errorData.message);
     }
 };
-export const signIn = async (formData: SignInFormData) => {
+export const signIn = async (formData: LoginInputDTO) => {
     const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
         method: "POST",
         credentials: "include", // send any cookies along with req

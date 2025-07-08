@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { resetPassword } from "../../../ApiClient/api-client.ts";
+import { resetPassword } from "../../../services/api/api-client.ts";
 import { useNavigate, useParams } from "react-router-dom";
 import { useToast } from "../../../app/context/ToastContext.tsx";
 

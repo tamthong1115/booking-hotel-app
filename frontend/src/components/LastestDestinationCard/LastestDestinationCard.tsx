@@ -3,12 +3,12 @@ import styles from "./LastestDestinationCard.module.scss";
 import classNames from "classnames/bind";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
-import { HotelTypeFrontend } from "../../../shared/types/types.ts";
+import { HotelType } from "@shared/types/types.ts";
 
 const cx = classNames.bind(styles);
 
 type Props = {
-    hotel: HotelTypeFrontend;
+    hotel: HotelType;
 };
 
 const LatestDestinationCard = ({ hotel }: Props) => {

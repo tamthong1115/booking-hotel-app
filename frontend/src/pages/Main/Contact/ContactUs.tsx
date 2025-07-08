@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import DetailsBar from "../../components/Contact/DetailsBar.tsx";
-import InputSide from "../../components/Contact/InputSide.tsx";
+import DetailsBar from "../../../components/Contact/DetailsBar.tsx";
+import InputSide from "../../../components/Contact/InputSide.tsx";
 
 const PageWrapper = styled.div`
     display: flex;

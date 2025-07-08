@@ -1,16 +1,16 @@
 import { AiFillStar } from "react-icons/ai";
 import { Link, useParams } from "react-router-dom";
 import { useQuery, useQueryClient } from "react-query";
-import LoadingComponent from "../../components/Loading/Loading.tsx";
-import MapboxGL from "../../components/Map/MapboxGL.tsx";
-import ReviewForm from "../../forms/ReviewForm/ReviewForm.tsx";
-import Reviews from "../../components/Review/Reviews.tsx";
+import LoadingComponent from "../../../components/Loading/Loading.tsx";
+import MapboxGL from "../../../components/Map/MapboxGL.tsx";
+import ReviewForm from "../../../forms/ReviewForm/ReviewForm.tsx";
+import Reviews from "../../../components/Review/Reviews.tsx";
 import { useEffect, useState } from "react";
 import { useAppContext } from "../../../app/context/AppContext.tsx";
-import Room from "../../components/Room/Room.tsx";
-import { fetchCurrentUser } from "../../../ApiClient/api-users.ts";
-import { fetchHotelById } from "../../../ApiClient/api-hotels.ts";
-import DeleteHotelButton from "../../components/Button/DeleteHotelButton.tsx";
+import Room from "../../../components/Room/Room.tsx";
+import { fetchCurrentUser } from "../../../services/api/api-users.ts";
+import { fetchHotelById } from "../../../services/api/api-hotels.ts";
+import DeleteHotelButton from "../../../components/Button/DeleteHotelButton.tsx";
 
 const Detail = () => {
     const { roles } = useAppContext();

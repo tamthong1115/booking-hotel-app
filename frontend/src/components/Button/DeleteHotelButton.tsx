@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from "react-query";
 import LoadingComponent from "../Loading/Loading.tsx";
 import { useNavigate } from "react-router-dom";
-import { deleteHotelById } from "../../../ApiClient/api-hotels.ts";
-import { useToast } from "../../../app/context/ToastContext.tsx";
+import { deleteHotelById } from "../../services/api/api-hotels.ts";
+import { useToast } from "../../app/context/ToastContext.tsx";
 
 type Props = {
     hotelId: string;

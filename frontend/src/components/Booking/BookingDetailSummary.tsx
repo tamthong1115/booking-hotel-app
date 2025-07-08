@@ -1,4 +1,4 @@
-import { HotelTypeFrontend } from "../../../shared/types/types.ts";
+import { HotelType } from "@shared/types/types.ts";
 import React from "react";
 
 type Props = {
@@ -7,7 +7,7 @@ type Props = {
     adultCount: number;
     childCount: number;
     numberOfNights: number;
-    hotel: HotelTypeFrontend;
+    hotel: HotelType;
 };
 
 const BookingDetailsSummary: React.FC<Props> = ({

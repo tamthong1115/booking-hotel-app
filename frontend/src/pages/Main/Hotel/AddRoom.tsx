@@ -1,7 +1,7 @@
 import { useMutation } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
-import ManageRoomForm, { RoomFormData } from "../../forms/RoomForm/RoomForm.tsx";
-import { addNewRoom } from "../../../ApiClient/api-rooms.ts";
+import ManageRoomForm, { RoomFormData } from "../../../forms/RoomForm/RoomForm.tsx";
+import { addNewRoom } from "../../../services/api/api-rooms.ts";
 import { useToast } from "../../../app/context/ToastContext.tsx";
 
 const AddRoom = () => {

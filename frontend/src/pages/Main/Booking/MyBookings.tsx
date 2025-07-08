@@ -1,9 +1,9 @@
 import { useQuery } from "react-query";
-import LoadingComponent from "../../components/Loading/Loading.tsx";
+import LoadingComponent from "../../../components/Loading/Loading.tsx";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
-import { fetchMyBookings } from "../../../ApiClient/api-bookings.ts";
+import { fetchMyBookings } from "../../../services/api/api-bookings.ts";
 
 const MyBookings = () => {
     useEffect(() => {}, []);

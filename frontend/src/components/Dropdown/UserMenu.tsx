@@ -9,7 +9,8 @@ import classNames from "classnames/bind";
 import styles from "./UserMenu.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faKey, faRightFromBracket, faUser } from "@fortawesome/free-solid-svg-icons";
-import { fetchCurrentUser } from "../../../ApiClient/api-users.ts";
+import { fetchCurrentUser } from "../../services/api/api-users.ts";
+import { ROLES } from "../../types/types.ts";
 
 const cx = classNames.bind(styles);
 
@@ -26,7 +27,7 @@ export default function UserMenu() {
         setAnchorEl(null);
     };
 
-    const isAdmin = user?.roles.includes("admin");
+    const isAdmin = user?.roles.includes(ROLES.SUPER_ADMIN);
 
     return (
         <div>
@@ -45,7 +46,7 @@ export default function UserMenu() {
                             alt="Avatar"
                         />
                     </div>
-                    <p className={cx("user-name")}>{user?.firstName + " " + user?.lastName}</p>
+                    <p className={cx("user-name")}>{user?.firstName || "" + " " + user?.lastName || ""}</p>
                 </Button>
             </div>
             <Menu

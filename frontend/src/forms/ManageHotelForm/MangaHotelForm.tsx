@@ -5,7 +5,7 @@ import FacilitiesSection from "./FacilitiesSection.tsx";
 import GuestsSection from "./GuestsSection.tsx";
 import ImagesSection from "./ImagesSection.tsx";
 import { useEffect } from "react";
-import { HotelTypeFrontend } from "../../../shared/types/types.ts";
+import { HotelType } from "@shared/types/types.ts";
 
 export type HotelFormData = {
     name: string;
@@ -23,7 +23,7 @@ export type HotelFormData = {
 };
 
 type Props = {
-    hotel?: HotelTypeFrontend; // for edit
+    hotel?: HotelType; // for edit
     onSave: (HotelFormData: FormData) => void;
     isLoading: boolean;
 };

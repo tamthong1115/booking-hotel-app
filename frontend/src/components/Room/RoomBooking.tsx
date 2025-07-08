@@ -1,18 +1,18 @@
 import React, { useEffect, useRef } from "react";
 import react from "react-dom";
-import { RoomType } from "../../../../../backend/shared/types.ts";
+import { RoomType } from "@shared/types/types.ts";
 import GuestInfoForm from "../../forms/GuestInfoForm/GuestInfoForm.tsx";
 import { AiFillStar } from "react-icons/ai";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import classNames from "classnames/bind";
 import styles from "./Room.module.scss";
-import { HotelTypeFrontend } from "../../../shared/types/types.ts";
+import { HotelType } from "@shared/types/types.ts";
 
 const cx = classNames.bind(styles);
 
 type Props = {
-    hotel: HotelTypeFrontend;
+    hotel: HotelType;
     room: RoomType;
     isRoomBookingOpen: boolean;
     onClose: () => void;

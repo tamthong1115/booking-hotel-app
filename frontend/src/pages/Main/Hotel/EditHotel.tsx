@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
-import ManageHotelForm from "../../forms/ManageHotelForm/MangaHotelForm.tsx";
-import { fetchMyHotelById, updateMyHotelById } from "../../../ApiClient/api-hotels.ts";
+import ManageHotelForm from "../../../forms/ManageHotelForm/MangaHotelForm.tsx";
+import { fetchMyHotelById, updateMyHotelById } from "../../../services/api/api-hotels.ts";
 import { useToast } from "../../../app/context/ToastContext.tsx";
 
 const EditHotel = () => {

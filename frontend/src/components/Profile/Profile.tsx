@@ -3,11 +3,11 @@ import LoadingComponent from "../Loading/Loading.tsx";
 import classNames from "classnames/bind";
 import styles from "./Profile.module.scss";
 import { useState } from "react";
-import { UserType } from "../../../../../backend/shared/types.ts";
+import { UserType } from "@shared/types/types.ts";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import { fetchCurrentUser, updateUser } from "../../../ApiClient/api-users.ts";
-import { useToast } from "../../../app/context/ToastContext.tsx";
+import { fetchCurrentUser, updateUser } from "../../services/api/api-users.ts";
+import { useToast } from "../../app/context/ToastContext.tsx";
 
 const cx = classNames.bind(styles);
 

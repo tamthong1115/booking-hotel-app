@@ -1,6 +1,6 @@
-import { HotelTypeFrontend } from "../shared/types/types.ts";
-import { BookingFormData } from "../main-booking/forms/BookingForm/BookingForm.tsx";
-import { PaymentIntentResponse } from "../../../backend/shared/types.ts";
+import { HotelType } from "@shared/types/types.ts";
+import { BookingFormData } from "../../forms/BookingForm/BookingForm.tsx";
+import { PaymentIntentResponse } from "@shared/types/types.ts";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
 export const createPaymentIntent = async (
@@ -37,7 +37,7 @@ export const createRoomBooking = async (formData: BookingFormData) => {
         throw new Error("Error creating booking");
     }
 };
-export const fetchMyBookings = async (): Promise<HotelTypeFrontend[]> => {
+export const fetchMyBookings = async (): Promise<HotelType[]> => {
     const response = await fetch(`${API_BASE_URL}/api/my-bookings`, {
         credentials: "include",
     });

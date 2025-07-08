@@ -1,3 +1,23 @@
+export type Permission = {
+    _id: string;
+    name: string;
+};
+
+export const ROLES = {
+    SUPER_ADMIN: "super-admin",
+    HOTEL_OWNER: "hotel-owner",
+    HOTEL_MANAGER: "hotel-manager",
+    RECEPTIONIST: "receptionist",
+    USER: "user",
+} as const;
+
+export type RoleType = {
+    _id: string;
+    name: string;
+    description: string;
+    permissions: Permission[];
+};
+
 export interface BookingType {
     _id: string;
     roomId: string;
@@ -21,7 +41,7 @@ export interface RoomType {
     isBooked: boolean;
 }
 
-export interface HotelTypeFrontend {
+export interface HotelType {
     _id: string;
     userId: string;
     name: string;
@@ -46,7 +66,7 @@ export interface HotelTypeFrontend {
 }
 
 export type HotelSearchResponseFrontEnd = {
-    data: HotelTypeFrontend[];
+    data: HotelType[];
     pagination: {
         total: number;
         page: number;

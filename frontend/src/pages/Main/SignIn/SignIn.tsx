@@ -2,14 +2,11 @@ import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
-import Buttons from "../../components/Buttons";
-import { signIn } from "../../../ApiClient/api-users.ts";
+import Buttons from "../../../components/Buttons";
+import { signIn } from "../../../services/api/api-users.ts";
 import { useToast } from "../../../app/context/ToastContext.tsx";
+import { LoginInputDTO } from "@shared/types/types.ts";
 
-export type SignInFormData = {
-    email: string;
-    password: string;
-};
 const SignIn = () => {
     const queryClient = useQueryClient();
     const { showToast } = useToast();
@@ -25,7 +22,7 @@ const SignIn = () => {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm<SignInFormData>({
+    } = useForm<LoginInputDTO>({
         mode: "onBlur",
     });
 
@@ -110,7 +107,8 @@ const SignIn = () => {
                                 type="button"
                                 className="flex items-center  rounded bg-white border p-7 shadow hover:border-blue-400"
                                 onClick={() => {
-                                    window.location.href = `${import.meta.env.VITE_API_BASE_URL}/api/auth/google`;
+                                    const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || window.location.origin;
+                                    window.location.href = `${apiBaseUrl}/api/auth/google`;
                                 }}
                             >
                                 <img

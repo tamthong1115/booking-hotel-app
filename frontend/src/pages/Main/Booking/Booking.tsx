@@ -1,16 +1,16 @@
 import { useQuery } from "react-query";
-import BookingForm from "../../forms/BookingForm/BookingForm.tsx";
+import BookingForm from "../../../forms/BookingForm/BookingForm.tsx";
 import { useSearchContext } from "../../../app/context/SearchContext.tsx";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import BookingDetailSummary from "../../components/Booking/BookingDetailSummary.tsx";
-import LoadingComponent from "../../components/Loading/Loading.tsx";
+import BookingDetailSummary from "../../../components/Booking/BookingDetailSummary.tsx";
+import LoadingComponent from "../../../components/Loading/Loading.tsx";
 import { Elements } from "@stripe/react-stripe-js";
 import { useAppContext } from "../../../app/context/AppContext.tsx";
 
-import { createPaymentIntent } from "../../../ApiClient/api-bookings.ts";
-import { fetchCurrentUser } from "../../../ApiClient/api-users.ts";
-import { fetchHotelById } from "../../../ApiClient/api-hotels.ts";
+import { createPaymentIntent } from "../../../services/api/api-bookings.ts";
+import { fetchCurrentUser } from "../../../services/api/api-users.ts";
+import { fetchHotelById } from "../../../services/api/api-hotels.ts";
 
 const Booking = () => {
     const { stripePromise } = useAppContext();

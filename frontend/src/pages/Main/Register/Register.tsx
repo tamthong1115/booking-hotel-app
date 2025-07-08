@@ -1,22 +1,15 @@
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
 import { Link } from "react-router-dom";
-import * as userClient from "../../../ApiClient/api-users.ts";
+import * as userClient from "../../../services/api/api-users.ts";
 
 import classNames from "classnames/bind";
 import styles from "./Register.module.scss";
-import Buttons from "../../components/Buttons";
+import Buttons from "../../../components/Buttons";
 import { useToast } from "../../../app/context/ToastContext.tsx";
+import { RegisterInputDTO } from "@shared/types/types.ts";
 
 const cx = classNames.bind(styles);
-
-export type RegisterFormData = {
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string;
-    confirmPassword: string;
-};
 
 const Register = () => {
     const queryClient = useQueryClient();
@@ -27,7 +20,7 @@ const Register = () => {
         watch,
         handleSubmit,
         formState: { errors },
-    } = useForm<RegisterFormData>({
+    } = useForm<RegisterInputDTO>({
         mode: "onBlur", // trigger the validation when un-focus the input
     });
 

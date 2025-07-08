@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { useQuery } from "react-query";
 import { loadStripe, Stripe } from "@stripe/stripe-js";
-import { validateTokenUser, getUserRoles } from "../ApiClient/api-users.ts";
+import { validateTokenUser, getUserRoles } from "../../services/api/api-users.ts";
 import { ToastProvider } from "./ToastContext.tsx";
 // import LoadingComponent from "../components/Loading/Loading.tsx";
 const STRIPE_PUBLIC_KEY = (import.meta.env.VITE_STRIPE_PUBLIC_KEY as string) || "";
