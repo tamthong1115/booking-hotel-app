@@ -1,9 +1,10 @@
 import "module-alias/register";
-import { PermissionModel, Permission } from "@modules/user/permission";
-import { RoleModelType, RoleModel } from "@modules/user/role";
-import UserModel, { User } from "@modules/user/user";
+import { PermissionModel } from "@modules/user/permission";
+import { RoleModel } from "@modules/user/role";
+import UserModel from "@modules/user/user";
 import bcrypt from "bcryptjs";
 import connectToDatabase from "@utils/connectToDatabase";
+import { PermissionModelType, RoleModelType, UserModelType } from "@type/models/userType";
 
 connectToDatabase();
 
@@ -55,11 +56,11 @@ const permissionsList = [
     "user:review:create",
 ];
 
-async function seedPermissions(): Promise<Permission[]> {
+async function seedPermissions(): Promise<PermissionModelType[]> {
     const permissionDocs = [];
 
     for (const per of permissionsList) {
-        const doc = await PermissionModel.findOneAndUpdate<Permission>(
+        const doc = await PermissionModel.findOneAndUpdate<PermissionModelType>(
             { name: per },
             { name: per },
             { upsert: true, new: true, setDefaultsOnInsert: true },
@@ -71,7 +72,7 @@ async function seedPermissions(): Promise<Permission[]> {
     return permissionDocs;
 }
 
-async function seedRoles(permissions: Awaited<Promise<Permission[]>>): Promise<Role[]> {
+async function seedRoles(permissions: Awaited<Promise<PermissionModelType[]>>): Promise<RoleModelType[]> {
     const get = (...names: string[]) => {
         return permissions.filter((p) => names.includes(p.name)).map((p) => p._id);
     };
@@ -134,7 +135,7 @@ async function seedRoles(permissions: Awaited<Promise<Permission[]>>): Promise<R
 
     const docs = [];
     for (const role of roles) {
-        const doc = await RoleModel.findOneAndUpdate<Role>({ name: role.name }, role, {
+        const doc = await RoleModel.findOneAndUpdate<RoleModelType>({ name: role.name }, role, {
             upsert: true,
             new: true,
             setDefaultsOnInsert: true,
@@ -145,7 +146,7 @@ async function seedRoles(permissions: Awaited<Promise<Permission[]>>): Promise<R
     return docs;
 }
 
-async function seedUsers(roles: Awaited<Promise<Role[]>>) {
+async function seedUsers(roles: Awaited<Promise<RoleModelType[]>>) {
     const roleMap = Object.fromEntries(roles.map((r) => [r.name, r._id]));
 
     const users = [
@@ -189,7 +190,7 @@ async function seedUsers(roles: Awaited<Promise<Role[]>>) {
     for (const user of users) {
         const hashedPassword = await bcrypt.hash(user.password, 10);
 
-        await UserModel.findOneAndUpdate<User>(
+        await UserModel.findOneAndUpdate<UserModelType>(
             { email: user.email },
             {
                 ...user,

@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import Room from "./room";
 import Hotel from "@modules/hotel/hotel";
-import { RoomModelType } from "@type/model/hotelType";
+import { RoomModelType } from "../../type/models/hotelType";
 import { mapRoomToDTO } from "@modules/hotel/hotel.mapper";
 
 export const addNewRoom: RequestHandler = async (req, res, next) => {

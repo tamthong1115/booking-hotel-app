@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import Review from "@modules/review/review";
 import Room from "@modules/room/room";
-import { HotelModelType } from "../../type/model/hotelType";
+import { HotelModelType } from "../../type/models/hotelType";
 
 const hotelSchema = new mongoose.Schema<HotelModelType>({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },

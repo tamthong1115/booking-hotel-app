@@ -1,4 +1,4 @@
-import { BookingModelType, HotelModelType, RoomModelType } from "@type/model/hotelType";
+import { BookingModelType, HotelModelType, RoomModelType } from "../../type/models/hotelType";
 import { HotelType, BookingType, RoomType } from "@shared/types/types";
 
 /**

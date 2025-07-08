@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { RoomType } from "@shared/types/types";
-import { RoomModelType } from "../../type/model/hotelType";
+import { RoomModelType } from "../../type/models/hotelType";
 
 const roomSchema = new mongoose.Schema<RoomModelType>({
     name: { type: String, required: true },

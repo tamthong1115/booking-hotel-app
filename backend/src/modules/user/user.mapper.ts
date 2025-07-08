@@ -1,5 +1,5 @@
 import { Permission, RoleType, UserType } from "@shared/types/types";
-import { PermissionModelType, RoleModelType, UserModelType } from "@type/model/userType";
+import { PermissionModelType, RoleModelType, UserModelType } from "../../type/models/userType";
 
 export function toRoleDTOs(roles: RoleModelType[]): RoleType[] {
     return (roles || []).map((role) => ({

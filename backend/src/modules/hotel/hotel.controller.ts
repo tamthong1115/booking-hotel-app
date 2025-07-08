@@ -7,7 +7,7 @@ import Stripe from "stripe";
 import "dotenv/config";
 import Booking from "@modules/booking/model/booking";
 import Room from "@modules/room/room";
-import { BookingModelType, RoomModelType } from "../../type/model/hotelType";
+import { BookingModelType, RoomModelType } from "../../type/models/hotelType";
 import { mapHotelToDTO } from "@modules/hotel/hotel.mapper";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);

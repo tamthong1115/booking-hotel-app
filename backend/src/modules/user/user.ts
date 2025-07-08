@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcryptjs";
-import { UserModelType } from "../../type/model/userType";
+import { UserModelType } from "../../type/models/userType";
 
 const userSchema = new mongoose.Schema<UserModelType>({
     _id: { type: Schema.Types.ObjectId, auto: true, required: true },
@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema<UserModelType>({
 
 userSchema.index({ googleId: 1 }, { unique: true, sparse: true });
 
-// Hash the password before saving the user model
+// Hash the password before saving the user models
 userSchema.pre("save", async function (this: mongoose.Document & UserModelType, next) {
     if (this.isModified("password")) {
         const saltRounds = 10;

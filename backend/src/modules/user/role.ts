@@ -1,5 +1,5 @@
 import { model, Schema } from "mongoose";
-import { RoleModelType } from "../../type/model/userType";
+import { RoleModelType } from "../../type/models/userType";
 
 const RoleSchema = new Schema<RoleModelType>(
     {

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { ReviewModelType } from "../../type/model/hotelType";
+import { ReviewModelType } from "../../type/models/hotelType";
 
 const reviewSchema = new mongoose.Schema<ReviewModelType>({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },

@@ -3,7 +3,7 @@ import UserModel from "@modules/user/user";
 
 const checkPermission = (requiredPermission: string): RequestHandler => {
     return async (req, res, next) => {
-        if (!req.user?._id) {
+        if (!req.user_backend?._id) {
             return res.status(401).json({ message: "Unauthorized" });
         }
         const user = await UserModel.findById(req.user_backend?._id).populate("roles");

@@ -1,134 +1,135 @@
 .wrapper {
-    display: inline-flex;
-    align-items: center;
-    justify-content: left;
-    min-width: 50px;
-    font-size: 1rem;
-    font-weight: 400;
-    padding: 6px 8px;
-    margin: 3px 0;
-    border-radius: 4px;
-    cursor: pointer;
-    background-color: #fff;
-    height: 100%;
-    user-select: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: left;
+  min-width: 50px;
+  font-size: 1rem;
+  font-weight: 400;
+  padding: 6px 8px;
+  margin: 3px 0;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #fff;
+  height: 100%;
+  user-select: none;
 
-    &.disabled {
-        opacity: 0.5;
-        pointer-events: none;
-    }
+  &.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
 }
 
 // Buttons type
 
 .rounded {
-    height: 42px;
-    border-radius: 999px;
-    padding: 11px 16px;
-    font-size: 1.4rem;
-    font-weight: 300;
-    color: rgba(22, 24, 35, 0.75);
-    background-color: transparent;
-    color: var(--white);
-    margin-left: 12px;
+  height: 42px;
+  border-radius: 999px;
+  padding: 11px 16px;
+  font-size: 1.4rem;
+  font-weight: 300;
+  color: rgba(22, 24, 35, 0.75);
+  background-color: transparent;
+  color: var(--white);
+  margin-left: 12px;
 
-    &:hover {
-        border-color: var(--primary-color);
-        background-color: #1a4fa0;
-    }
+  &:hover {
+    border-color: var(--primary-color);
+    background-color: #1a4fa0;
+  }
 }
 
 .primary {
-    font-size: 1.4rem;
-    font-weight: 500;
-    color: #003b95;
-    background-color: var(--white);
-    border-color: var(--primary-color);
-    padding: 4px 12px;
-    margin-left: 8px;
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #003b95;
+  background-color: var(--white);
+  border-color: var(--primary-color);
+  padding: 4px 12px;
+  margin-left: 8px;
 
-    &:hover {
-        border-color: var(--primary-color);
-        background-color: #f0f6fd;
-    }
+  &:hover {
+    border-color: var(--primary-color);
+    background-color: #f0f6fd;
+  }
 }
 
 .outline {
-    padding: 8px 16px;
-    height: 40px;
-    min-width: 40px;
-    color: var(--white);
-    font-weight: 500;
-    background-color: transparent;
+  padding: 8px 16px;
+  height: 40px;
+  min-width: 40px;
+  color: var(--white);
+  font-weight: 500;
+  background-color: transparent;
 
-    &:hover {
-        border-color: var(--primary-color);
-        background-color: #1a4fa0;
-    }
+  &:hover {
+    border-color: var(--primary-color);
+    background-color: #1a4fa0;
+  }
 }
 
 .search {
-    font-size: 2rem;
-    font-weight: 500;
-    background-color: rgb(247, 84, 117);
-    border: 2px solid orange;
-    height: 100%;
-    color: var(--white);
-    border-radius: 8px;
-    width: 100%;
-    max-width: 109px;
+  font-size: 2rem;
+  font-weight: 500;
+  background-color: rgb(247, 84, 117);
+  border: 2px solid orange;
+  height: 100%;
+  color: var(--white);
+  border-radius: 8px;
+  width: 100%;
+  max-width: 109px;
 
-    &:hover {
-        background-color: rgb(254, 44, 85);
-    }
+  &:hover {
+    background-color: rgb(254, 44, 85);
+  }
 }
 
 .border {
-    border: 1px solid white;
-    height: 42px;
-    font-weight: 300;
-    border-radius: 999px;
-    padding: 11px 16px;
-    font-size: 1.4rem;
-    color: rgba(22, 24, 35, 0.75);
-    background-color: #1a4fa0;
-    color: var(--white);
+  border: 1px solid white;
+  height: 42px;
+  font-weight: 300;
+  border-radius: 999px;
+  padding: 11px 16px;
+  font-size: 1.4rem;
+  color: rgba(22, 24, 35, 0.75);
+  background-color: #1a4fa0;
+  color: var(--white);
 }
 
 .text {
-    border-color: rgba(22, 24, 35, 0.12);
-    font-weight: 600;
-    color: #161823;
-    padding: 6px 16px;
-    min-width: 110px;
+  border-color: rgba(22, 24, 35, 0.12);
+  font-weight: 600;
+  color: #161823;
+  padding: 6px 16px;
+  min-width: 110px;
 
-    &:hover {
-        background-color: rgba(22, 24, 35, 0.03);
-    }
+  &:hover {
+    background-color: rgba(22, 24, 35, 0.03);
+  }
 }
 
 .icon + .title,
 .title + .icon {
-    margin-left: 10px;
+  margin-left: 10px;
 }
 
 .icon {
-    display: flex;
-    font-size: 1.2rem;
-    width: 20px;
-    text-align: center;
-    color: #666161;
+  display: flex;
+  font-size: 1.2rem;
+  width: 20px;
+  text-align: center;
+  color: #666161;
 }
+
 // Button sizes
 
 .small {
-    min-height: 32px;
-    min-width: 88px;
-    padding: 1px 15px;
+  min-height: 32px;
+  min-width: 88px;
+  padding: 1px 15px;
 }
 
 .large {
-    height: 48px;
-    min-width: 200px;
-    padding: 6px 8px;
+  height: 48px;
+  min-width: 200px;
+  padding: 6px 8px;
 }

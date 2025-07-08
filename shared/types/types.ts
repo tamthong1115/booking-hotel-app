@@ -7,7 +7,7 @@ export type Permission = {
 export type RoleType = {
     _id: string;
     name: string;
-    description: string;
+    description?: string;
     permissions: Permission[];
 };
 
