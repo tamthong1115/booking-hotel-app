@@ -1,10 +1,10 @@
 import "express";
+import { UserModelType } from "../model/userType";
 
 declare global {
     namespace Express {
         interface Request {
-            userId?: string;
-            roles?: string[];
+            user_backend?: UserModelType;
         }
     }
 }

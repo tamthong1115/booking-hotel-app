@@ -1,11 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import generateToken from "@utils/generateToken";
-import { UserType } from "@shared/types";
+import { RegisterInputDTO, UserType } from "@shared/types/types";
 import passport from "passport";
 import * as authService from "../service/auth.service";
-import { RegisterInputDTO } from "../dto/auth.dto";
 import { sendError, sendSuccess } from "@utils/response";
-import { ERROR_CODES } from "@shared/constants/errorCodes";
+import { ERROR_CODES } from "../../../../../shared/constants/errorCodes";
 import CustomError from "@utils/ExpressError";
 
 function getErrorMessage(error: unknown): string {
@@ -72,6 +71,8 @@ export const googleCallback = (req: Request, res: Response, next: NextFunction) 
         "google",
         { session: false },
         async (err: Error | null, user: UserType | false, info: { message?: string } | undefined) => {
+            console.log("Google callback triggered");
+
             if (err) {
                 console.error("Passport error:", err);
                 const url = `${process.env.WEB_URL || "http://localhost:5173"}/sign-in?error=${encodeURIComponent("Internal server error.")}`;
@@ -98,7 +99,7 @@ export const googleCallback = (req: Request, res: Response, next: NextFunction) 
 
 export const getValidateToken = (req: Request, res: Response, next: NextFunction) => {
     try {
-        if (!req.userId) {
+        if (!req.user_backend?._id) {
             return sendError(
                 res,
                 "Unauthorized",
@@ -106,7 +107,7 @@ export const getValidateToken = (req: Request, res: Response, next: NextFunction
                 ERROR_CODES.UNAUTHORIZED_ACCESS.statusCode,
             );
         }
-        res.status(200).send({ userId: req.userId });
+        res.status(200).send({ userId: req.user_backend?._id });
     } catch (error) {
         next(error);
     }
@@ -114,7 +115,7 @@ export const getValidateToken = (req: Request, res: Response, next: NextFunction
 
 export const getRoles = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const roles = await authService.getRoles(req.userId as string);
+        const roles = await authService.getRoles(req.user_backend?._id.toString() || "");
         res.json(roles);
     } catch (error) {
         next(error);

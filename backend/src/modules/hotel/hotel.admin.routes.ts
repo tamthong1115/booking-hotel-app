@@ -1,7 +1,7 @@
 import express from "express";
 import { deleteHotel, editHotel, getHotels, getOneHotel, postNewHotel } from "./hotel.admin.controller";
 import multer from "multer";
-import roleMiddleware from "@middlewares/roleMiddleware";
+import checkRole from "@middlewares/checkRole";
 import { body } from "express-validator";
 
 const router = express.Router();
@@ -17,7 +17,7 @@ const upload = multer({
 const MAX_IMG = 6;
 router.post(
     "/",
-    roleMiddleware(["admin"]),
+    checkRole(["admin"]),
     [
         body("name").notEmpty().withMessage("Name is required"),
         body("city").notEmpty().withMessage("City is required"),
@@ -30,19 +30,19 @@ router.post(
     postNewHotel,
 );
 
-router.get("/", roleMiddleware(["admin"]), getHotels);
+router.get("/", checkRole(["admin"]), getHotels);
 
-router.get("/:hotelId", roleMiddleware(["admin"]), getOneHotel);
+router.get("/:hotelId", checkRole(["admin"]), getOneHotel);
 
 // api/my-hotels/:hotelId
 router.put(
     "/:hotelId", // params hotelId
-    roleMiddleware(["admin"]),
+    checkRole(["admin"]),
     upload.array("imageFiles"),
     editHotel,
 );
 
 //delete
-router.delete("/:hotelId", roleMiddleware(["admin"]), deleteHotel);
+router.delete("/:hotelId", checkRole(["admin"]), deleteHotel);
 
 export default router;

@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import cloudinary from "cloudinary";
 import Hotel from "./hotel";
-import { HotelType } from "@shared/types";
+import { HotelType } from "@shared/types/types";
 import mbxGeocoding from "@mapbox/mapbox-sdk/services/geocoding";
 import { uploadImages } from "@utils/upload-images";
 import "dotenv/config";
@@ -48,22 +48,22 @@ export const postNewHotel: RequestHandler = async (req, res, next) => {
                  take id from req.userId (not req.body) b.c the
                  userId has validated by token before add it to req
                 */
-        if (!req.userId) {
+        if (!req.user_backend?._id) {
             throw new CustomError(
                 ERROR_CODES.UNAUTHORIZED_ACCESS.message,
                 ERROR_CODES.UNAUTHORIZED_ACCESS.code,
                 ERROR_CODES.UNAUTHORIZED_ACCESS.statusCode,
-            )
+            );
         }
 
-        newHotel.userId = req.userId;
+        newHotel.userId = req.user_backend?._id;
 
         const hotel = new Hotel(newHotel);
         await hotel.save();
 
         res.status(201).send(hotel);
     } catch (e) {
-       next(new CustomError(`Error creating hotel: ${e}`));
+        next(new CustomError(`Error creating hotel: ${e}`));
     }
 };
 
@@ -76,7 +76,7 @@ export const getHotels: RequestHandler = async (req, res, next) => {
     }
 };
 
-export const getOneHotel: RequestHandler = async (req, res,next) => {
+export const getOneHotel: RequestHandler = async (req, res, next) => {
     const hotelId = req.params.hotelId.toString();
     try {
         const hotel = await Hotel.findOne({

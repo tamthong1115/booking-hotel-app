@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
-import { HotelType } from "@shared/types";
 import Review from "@modules/review/review";
 import Room from "@modules/room/room";
+import { HotelModelType } from "../../type/model/hotelType";
 
-const hotelSchema = new mongoose.Schema<HotelType>({
-    userId: { type: String, required: true },
+const hotelSchema = new mongoose.Schema<HotelModelType>({
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     name: { type: String, required: true },
     city: { type: String, required: true },
     country: { type: String, required: true },
@@ -41,6 +41,6 @@ hotelSchema.post("findOneAndDelete", async (doc) => {
     }
 });
 
-const Hotel = mongoose.model<HotelType>("Hotel", hotelSchema);
+const Hotel = mongoose.model<HotelModelType>("Hotel", hotelSchema);
 
 export default Hotel;

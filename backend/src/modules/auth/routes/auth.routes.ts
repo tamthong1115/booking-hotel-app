@@ -11,14 +11,14 @@ import {
     googleCallback,
 } from "../controller/auth.controller";
 import verifyTokenUser from "@middlewares/verifyTokenUser";
-import roleMiddleware from "@middlewares/roleMiddleware";
+import checkRole from "@middlewares/checkRole";
 import {
     forgetPasswordValidator,
     loginValidator,
     registerValidator,
     resetPasswordValidator,
 } from "../validation/auth.routes.validation";
-import passport from "@utils/passport";
+import passport from "@modules/auth/utils/passport";
 
 const router = express.Router();
 
@@ -248,7 +248,7 @@ router.get("/roles", verifyTokenUser, getRoles);
 router.get(
     "/validate-token-role/:role",
     verifyTokenUser,
-    (req, res, next) => roleMiddleware([req.params.role])(req, res, next),
+    (req, res, next) => checkRole([req.params.role])(req, res, next),
     getValidateToken,
 );
 

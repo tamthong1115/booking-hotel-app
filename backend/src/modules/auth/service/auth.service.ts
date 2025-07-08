@@ -3,10 +3,10 @@ import bcrypt from "bcryptjs";
 import nodemailer from "nodemailer";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
-import { RegisterInputDTO, LoginInputDTO, ResetPasswordInputDTO } from "@modules/auth/dto/auth.dto";
-
 import CustomError from "@utils/ExpressError";
 import { ERROR_CODES } from "@shared/constants/errorCodes";
+import { LoginInputDTO, RegisterInputDTO, ResetPasswordInputDTO, RoleType } from "@shared/types/types";
+import { toRoleDTOs } from "@modules/user/user.mapper";
 
 const webUrl = process.env.WEB_URL || "http://localhost:5173";
 const email = process.env.BOOKING_EMAIL!;
@@ -147,8 +147,15 @@ export async function resetPassword(data: ResetPasswordInputDTO): Promise<void> 
     await user.save();
 }
 
-export async function getRoles(userId: string) {
+export async function getRoles(userId: string): Promise<RoleType[]> {
+    if (!userId) {
+        throw new CustomError(
+            ERROR_CODES.UNAUTHORIZED_ACCESS.message,
+            ERROR_CODES.UNAUTHORIZED_ACCESS.code,
+            ERROR_CODES.UNAUTHORIZED_ACCESS.statusCode,
+        );
+    }
     const user = await UserModel.findById(userId).populate("roles");
     if (!user) throw new Error("User not found");
-    return user.roles.map((role: any) => role.name);
+    return toRoleDTOs(user.roles);
 }

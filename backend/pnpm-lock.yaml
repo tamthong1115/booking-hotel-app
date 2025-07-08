@@ -103,8 +103,8 @@ importers:
         specifier: ^4.14.202
         version: 4.17.10
       '@types/mapbox__mapbox-sdk':
-        specifier: ^0.14.0
-        version: 0.14.0
+        specifier: ^0.16.0
+        version: 0.16.3
       '@types/module-alias':
         specifier: ^2.0.4
         version: 2.0.4
@@ -645,8 +645,8 @@ packages:
   '@types/mapbox-gl@3.4.0':
     resolution: {integrity: sha512-tbn++Mm94H1kE7W6FF0oVC9rMXHVzDDNUbS7KfBMRF8NV/8csFi+67ytKcZJ4LsrpsJ+8MC6Os6ZinEDCsrunw==}
 
-  '@types/mapbox__mapbox-sdk@0.14.0':
-    resolution: {integrity: sha512-c8MP61xN2Xp/1VDR78AA6crdqbmryZxekc2tlnmgcdc31SFnSZpeOWVFiM3Ngmgkkr+3IL+I8lAhsRKEijeC5A==}
+  '@types/mapbox__mapbox-sdk@0.16.3':
+    resolution: {integrity: sha512-kxhKRxwTK1BBWBcPgJ6GRC2UZMZ6DwcgkphyeuXA4uTzXRAwhmJYtS1BUAIC9uqYiORWk5LJSCi/IZOk0QAnkA==}
 
   '@types/mime@1.3.5':
     resolution: {integrity: sha512-/pyBZWSLD2n0dcHE3hq8s8ZvcETHtEuF+3E7XVt0Ig2nvsVQXdghHVcEkIWjy9A0wKfTn97a/PSDYohKIlnP/w==}
@@ -805,11 +805,6 @@ packages:
   acorn-walk@8.3.4:
     resolution: {integrity: sha512-ueEepnujpqee2o5aIYnvHU6C0A42MNdsIDeqy5BydrkuC5R1ZuUFnm27EeFJGoEHJQgn3uleRvmTXaJgfXbt4g==}
     engines: {node: '>=0.4.0'}
-
-  acorn@8.12.1:
-    resolution: {integrity: sha512-tcpGyI9zbizT9JbV6oYE477V6mTlXvvi0T0G3SNIYE2apm/G5huBa1+K89VGeovbg+jycCrfhl3ADxErOuO6Jg==}
-    engines: {node: '>=0.4.0'}
-    hasBin: true
 
   acorn@8.14.0:
     resolution: {integrity: sha512-cl669nCJTZBsL97OF4kUQm5g5hC2uihk0NxY3WENAC0TYdILVkAyHymAntgxGkl7K+t0cXIrH5siy5S4XkFycA==}
@@ -2813,7 +2808,7 @@ snapshots:
     dependencies:
       '@types/geojson': 7946.0.14
 
-  '@types/mapbox__mapbox-sdk@0.14.0':
+  '@types/mapbox__mapbox-sdk@0.16.3':
     dependencies:
       '@types/geojson': 7946.0.14
       '@types/mapbox-gl': 3.4.0
@@ -3027,9 +3022,7 @@ snapshots:
 
   acorn-walk@8.3.4:
     dependencies:
-      acorn: 8.12.1
-
-  acorn@8.12.1: {}
+      acorn: 8.14.0
 
   acorn@8.14.0: {}
 
@@ -4468,7 +4461,7 @@ snapshots:
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.4
       '@types/node': 20.16.11
-      acorn: 8.12.1
+      acorn: 8.14.0
       acorn-walk: 8.3.4
       arg: 4.1.3
       create-require: 1.1.1

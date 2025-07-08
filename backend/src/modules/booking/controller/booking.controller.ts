@@ -1,20 +1,20 @@
 import { RequestHandler } from "express";
 import CustomError from "@utils/ExpressError";
 import Hotel from "@modules/hotel/hotel";
-import { BookingType } from "@shared/types";
-import { ERROR_CODES } from "@shared/constants/errorCodes";
+import { ERROR_CODES } from "../../../../../shared/constants/errorCodes";
+import { BookingModelType } from "@type/model/hotelType";
 
 export const getBookings: RequestHandler = async (req, res, next) => {
     try {
-        const hotels = await Hotel.find({}).populate<{ bookings: BookingType[] }>({
+        const hotels = await Hotel.find({}).populate<{ bookings: BookingModelType[] }>({
             path: "bookings",
             match: {
-                userId: req.userId,
+                userId: req.user_backend?._id,
             },
         });
 
         const result = hotels.map((hotel) => {
-            const userBookings = hotel.bookings?.filter((booking) => booking.userId === req.userId);
+            const userBookings = hotel.bookings?.filter((booking) => booking.userId === req.user_backend?._id);
 
             if (!userBookings || userBookings.length === 0) return null;
 
@@ -35,6 +35,12 @@ export const getBookings: RequestHandler = async (req, res, next) => {
         res.status(200).json(filteredResult);
     } catch (err) {
         console.log(err);
-        next(new CustomError("Failed to get bookings", ERROR_CODES.BOOKING_FAILED.code, ERROR_CODES.BOOKING_FAILED.statusCode));
+        next(
+            new CustomError(
+                "Failed to get bookings",
+                ERROR_CODES.BOOKING_FAILED.code,
+                ERROR_CODES.BOOKING_FAILED.statusCode,
+            ),
+        );
     }
 };

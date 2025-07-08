@@ -1,12 +1,14 @@
 import { RequestHandler } from "express";
 import Hotel from "./hotel";
-import { BookingType, HotelSearchResponse, RoomType } from "@shared/types";
+import { BookingType, HotelSearchResponse, HotelType, RoomType } from "@shared/types/types";
 import { validationResult } from "express-validator";
 import CustomError from "@utils/ExpressError";
 import Stripe from "stripe";
 import "dotenv/config";
 import Booking from "@modules/booking/model/booking";
 import Room from "@modules/room/room";
+import { BookingModelType, RoomModelType } from "../../type/model/hotelType";
+import { mapHotelToDTO } from "@modules/hotel/hotel.mapper";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 
@@ -72,12 +74,12 @@ break
             // .sort(sortOption)
             // .skip(skip)
             // .limit(pageSize)
-            .populate<{ rooms: RoomType[] }>("rooms")
-            .populate<{ bookings: BookingType[] }>("bookings")
+            .populate<{ rooms: RoomModelType[] }>("rooms")
+            .populate<{ bookings: BookingModelType[] }>("bookings")
             .populate("reviews")
             .exec(); // exec() is used to return a promise
 
-        const roomMinPrice = (rooms: RoomType[]) => {
+        const roomMinPrice = (rooms: RoomModelType[]) => {
             return Math.min(...rooms.map((room) => room.pricePerNight));
         };
 
@@ -93,10 +95,12 @@ break
 
         const hotels = allHotels.slice(skip, skip + pageSize);
 
+        const hotelDTOs: HotelType[] = hotels.map((hotel) => mapHotelToDTO(hotel));
+
         const total = await Hotel.countDocuments(query);
 
         const response: HotelSearchResponse = {
-            data: hotels,
+            data: hotelDTOs,
             pagination: {
                 total,
                 page: pageNumber,
@@ -149,7 +153,7 @@ export const postCreatePaymentIntent: RequestHandler = async (req, res) => {
         metadata: {
             hotelId,
             roomId,
-            userId: req.userId ?? "",
+            userId: req.user_backend?._id.toString() ?? "",
         },
     });
 
@@ -180,7 +184,7 @@ export const postBooking: RequestHandler = async (req, res) => {
         if (
             paymentIntent.metadata.roomId !== req.params.roomId ||
             paymentIntent.metadata.hotelId !== req.params.hotelId ||
-            paymentIntent.metadata.userId !== req.userId
+            paymentIntent.metadata.userId !== req.user_backend?._id.toString()
         ) {
             return res.status(400).json({ message: "Invalid payment intent" });
         }
@@ -189,11 +193,11 @@ export const postBooking: RequestHandler = async (req, res) => {
             return res.status(400).json({ message: "Payment not successful" });
         }
 
-        const newBooking = new Booking({ ...req.body, userId: req.userId });
+        const newBooking = new Booking({ ...req.body, userId: req.user_backend?._id });
 
         // find the hotel and add the booking to the bookings array
         const hotel = await Hotel.findById(req.params.hotelId).populate<{
-            bookings: BookingType[];
+            bookings: BookingModelType[];
         }>("bookings");
 
         if (!hotel) {

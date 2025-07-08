@@ -1,3 +1,4 @@
+// Domain Type
 export type Permission = {
     _id: string;
     name: string;
@@ -14,7 +15,6 @@ export type UserType = {
     _id: string;
     googleId?: string;
     email: string;
-    password?: string;
     firstName?: string;
     lastName?: string;
     phoneNumber?: string;
@@ -95,4 +95,48 @@ export type ReviewType = {
     hotelId: string;
     rating: number;
     comment: string;
+};
+
+// DTO
+export type RegisterInputDTO = {
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+};
+
+export interface LoginInputDTO {
+    email: string;
+    password: string;
+}
+
+export interface ResetPasswordInputDTO {
+    token: string;
+    password: string;
+    confirmPassword: string;
+}
+
+
+export type HotelSearchResponseFrontEnd = {
+    data: HotelType[];
+    pagination: {
+        total: number;
+        page: number;
+        pages: number;
+    };
+};
+
+export type SearchParams = {
+    destination?: string;
+    checkIn?: string;
+    checkOut?: string;
+    adultCount?: string;
+    childCount?: string;
+    page?: string;
+    facilities?: string[];
+    types?: string[];
+    stars?: string[];
+    maxPrice?: string;
+    sortOption?: string;
 };

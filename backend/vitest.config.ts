@@ -12,7 +12,7 @@ export default defineConfig({
             "@middlewares": path.resolve(__dirname, "src/middlewares"),
             "@utils": path.resolve(__dirname, "src/utils"),
             "@config": path.resolve(__dirname, "src/config"),
-            "@types": path.resolve(__dirname, "src/types"),
+            "@type": path.resolve(__dirname, "src/type"),
             "@shared": path.resolve(__dirname, "shared"),
         },
     },

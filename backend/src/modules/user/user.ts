@@ -1,25 +1,9 @@
-import mongoose, { Schema, Document, Types } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcryptjs";
-import { UserType } from "@shared/types";
-import { Role } from "@modules/user/role";
+import { UserModelType } from "../../type/model/userType";
 
-export interface User extends Document {
-    _id: Types.ObjectId;
-    googleId?: string;
-    email: string;
-    password?: string;
-    firstName?: string;
-    lastName?: string;
-    phoneNumber?: string;
-    address?: string;
-    gender?: string;
-    birthday?: Date;
-    nationality?: string;
-    emailVerified: boolean;
-    roles: Role[];
-}
-
-const userSchema = new mongoose.Schema<User>({
+const userSchema = new mongoose.Schema<UserModelType>({
+    _id: { type: Schema.Types.ObjectId, auto: true, required: true },
     googleId: { type: String, required: false },
     email: { type: String, required: true, unique: true },
     password: { type: String },
@@ -37,7 +21,7 @@ const userSchema = new mongoose.Schema<User>({
 userSchema.index({ googleId: 1 }, { unique: true, sparse: true });
 
 // Hash the password before saving the user model
-userSchema.pre("save", async function (this: mongoose.Document & UserType, next) {
+userSchema.pre("save", async function (this: mongoose.Document & UserModelType, next) {
     if (this.isModified("password")) {
         const saltRounds = 10;
         if (this.password) {
@@ -47,6 +31,6 @@ userSchema.pre("save", async function (this: mongoose.Document & UserType, next)
     next();
 });
 
-const UserModel = mongoose.model<User>("User", userSchema);
+const UserModel = mongoose.model<UserModelType>("User", userSchema);
 
 export default UserModel;

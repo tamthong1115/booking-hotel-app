@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
-import { BookingType } from "@shared/types";
+import { BookingModelType } from "../../../type/model/hotelType";
 
-const bookingSchema = new mongoose.Schema<BookingType>({
-    userId: { type: String, required: true },
+const bookingSchema = new mongoose.Schema<BookingModelType>({
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
     email: { type: String, required: true },
@@ -13,6 +13,6 @@ const bookingSchema = new mongoose.Schema<BookingType>({
     totalCost: { type: Number, required: true },
 });
 
-const Booking = mongoose.model<BookingType>("Booking", bookingSchema);
+const Booking = mongoose.model<BookingModelType>("Booking", bookingSchema);
 
 export default Booking;

@@ -1,6 +1,6 @@
 import "module-alias/register";
 import { PermissionModel, Permission } from "@modules/user/permission";
-import { Role, RoleModel } from "@modules/user/role";
+import { RoleModelType, RoleModel } from "@modules/user/role";
 import UserModel, { User } from "@modules/user/user";
 import bcrypt from "bcryptjs";
 import connectToDatabase from "@utils/connectToDatabase";

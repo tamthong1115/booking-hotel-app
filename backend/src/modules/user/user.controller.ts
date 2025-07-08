@@ -3,7 +3,7 @@ import UserModel from "./user";
 import { toUserDTO } from "./user.mapper";
 
 export const getCurrentUser = async (req: Request, res: Response) => {
-    const userId = req.userId;
+    const userId = req.user_backend?._id;
 
     try {
         const user = await UserModel.findById(userId).select("-password").populate("roles"); // exclude password
@@ -19,7 +19,7 @@ export const getCurrentUser = async (req: Request, res: Response) => {
 };
 
 export const updateUser = async (req: Request, res: Response) => {
-    const userId = req.userId;
+    const userId = req.user_backend?._id;
 
     try {
         const user = await UserModel.findByIdAndUpdate(userId, req.body, {

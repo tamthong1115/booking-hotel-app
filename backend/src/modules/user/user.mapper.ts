@@ -1,9 +1,23 @@
-import { User } from "./user";
-import { UserDTO } from "@modules/user/user.dto";
+import { Permission, RoleType, UserType } from "@shared/types/types";
+import { PermissionModelType, RoleModelType, UserModelType } from "@type/model/userType";
 
-export function toUserDTO(user: User): UserDTO {
+export function toRoleDTOs(roles: RoleModelType[]): RoleType[] {
+    return (roles || []).map((role) => ({
+        _id: role._id.toString(),
+        name: role.name,
+        description: role.description ?? "",
+        permissions: (role.permissions || []).map(
+            (perm: PermissionModelType): Permission => ({
+                _id: perm._id.toString(),
+                name: perm.name,
+            }),
+        ),
+    }));
+}
+
+export function toUserDTO(user: UserModelType): UserType {
     return {
-        id: user._id.toString(),
+        _id: user._id.toString(),
         googleId: user.googleId,
         email: user.email,
         firstName: user.firstName,
@@ -14,6 +28,6 @@ export function toUserDTO(user: User): UserDTO {
         birthday: user.birthday,
         nationality: user.nationality,
         emailVerified: user.emailVerified,
-        roles: user.roles.map((role) => role.name),
+        roles: toRoleDTOs(user.roles || []),
     };
 }

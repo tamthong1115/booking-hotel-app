@@ -1,5 +1,5 @@
 import { Response } from "express";
-import { ApiResponse } from "../types/types";
+import { ApiResponse } from "../type/types";
 
 export function sendSuccess<T>(
   res: Response<ApiResponse<T>>,

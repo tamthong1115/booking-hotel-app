@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
-import { RoomType } from "@shared/types";
+import { RoomType } from "@shared/types/types";
+import { RoomModelType } from "../../type/model/hotelType";
 
-const roomSchema = new mongoose.Schema<RoomType>({
+const roomSchema = new mongoose.Schema<RoomModelType>({
     name: { type: String, required: true },
     roomType: {
         type: String,
@@ -12,6 +13,6 @@ const roomSchema = new mongoose.Schema<RoomType>({
     isBooked: { type: Boolean, default: false, required: true },
 });
 
-const Room = mongoose.model<RoomType>("Room", roomSchema);
+const Room = mongoose.model<RoomModelType>("Room", roomSchema);
 
 export default Room;

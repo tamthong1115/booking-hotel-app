@@ -1,14 +1,7 @@
-import { model, Schema, Document, Types } from "mongoose";
-import { Permission } from "./permission";
+import { model, Schema } from "mongoose";
+import { RoleModelType } from "../../type/model/userType";
 
-export interface Role extends Document {
-    _id: Types.ObjectId;
-    name: string;
-    description?: string;
-    permissions: Permission[];
-}
-
-const RoleSchema = new Schema<Role>(
+const RoleSchema = new Schema<RoleModelType>(
     {
         name: { type: String, required: true, unique: true },
         description: { type: String },
@@ -17,4 +10,4 @@ const RoleSchema = new Schema<Role>(
     { timestamps: true },
 );
 
-export const RoleModel = model<Role>("Role", RoleSchema);
+export const RoleModel = model<RoleModelType>("Role", RoleSchema);

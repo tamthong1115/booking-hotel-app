@@ -2,8 +2,8 @@ import { RequestHandler } from "express";
 import Review from "./review";
 import Hotel from "@modules/hotel/hotel";
 import CustomError from "@utils/ExpressError";
-import { BookingType } from "@shared/types";
-import { ERROR_CODES } from "@shared/constants/errorCodes";
+import { BookingType } from "@shared/types/types";
+import { ERROR_CODES } from "../../../../shared/constants/errorCodes";
 
 export const postNewReview: RequestHandler = async (req, res, next) => {
     try {
@@ -15,12 +15,12 @@ export const postNewReview: RequestHandler = async (req, res, next) => {
                 ERROR_CODES.HOTEL_NOT_FOUND.message,
                 ERROR_CODES.HOTEL_NOT_FOUND.code,
                 ERROR_CODES.HOTEL_NOT_FOUND.statusCode,
-            )
+            );
         }
 
         // check if user having booked the hotel
         const isBooked = hotel.bookings.some((booking) => {
-            return booking.userId.toString() === req.userId;
+            return booking.userId.toString() === req.user_backend?._id.toString();
         });
 
         if (!isBooked) {
@@ -34,7 +34,7 @@ export const postNewReview: RequestHandler = async (req, res, next) => {
         const { comment, rating, userName } = req.body;
 
         const newReview = new Review({
-            userId: req.userId,
+            userId: req.user_backend?._id,
             hotelId,
             rating,
             comment,
@@ -103,4 +103,3 @@ export const deleteReview: RequestHandler = async (req, res, next) => {
         next(new CustomError("Failed to delete review"));
     }
 };
-

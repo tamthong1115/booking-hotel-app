@@ -1,8 +1,6 @@
 import { RequestHandler } from "express";
-import jwt, { JwtPayload } from "jsonwebtoken";
-import UserModel from "@modules/user/user";
 
-const roleMiddleware = (requiredRoles: string[]): RequestHandler => {
+const checkRole = (requiredRoles: string[]): RequestHandler => {
     return async (req, res, next) => {
         const token = req.cookies["auth_token"];
         if (!token) {
@@ -10,12 +8,9 @@ const roleMiddleware = (requiredRoles: string[]): RequestHandler => {
         }
 
         try {
-            const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY as string);
-            req.userId = (decoded as JwtPayload).userId;
-            const user = await UserModel.findById(req.userId);
-            req.roles = user?.roles.map((role) => role.name) || [];
+            const roles = req.user_backend?.roles.map((role) => role.name) || [];
 
-            const hasRequiredRoles = requiredRoles.every((role) => req.roles?.includes(role));
+            const hasRequiredRoles = requiredRoles.some((role) => roles?.includes(role));
 
             if (!hasRequiredRoles) {
                 return res.status(403).json({ message: "Forbidden" });
@@ -29,4 +24,4 @@ const roleMiddleware = (requiredRoles: string[]): RequestHandler => {
     };
 };
 
-export default roleMiddleware;
+export default checkRole;
