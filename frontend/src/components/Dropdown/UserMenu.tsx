@@ -27,8 +27,7 @@ export default function UserMenu() {
         setAnchorEl(null);
     };
 
-    const isAdmin = user?.roles.includes(ROLES.SUPER_ADMIN);
-
+    const isAdmin = user?.roles.some((role) => role.name === ROLES.SUPER_ADMIN);
     return (
         <div>
             <div className={cx("user")}>
