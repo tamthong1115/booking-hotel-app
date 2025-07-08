@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import CustomError from "../utils/ExpressError";
-import { sendError } from "@utils/response";
+import { sendError } from "../utils/response";
 
 const ExpressHandler = (err: unknown, req: Request, res: Response, next: NextFunction) => {
     if (err instanceof Error) {
